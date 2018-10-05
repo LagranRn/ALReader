@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication;
+package com.example.administrator.myapplication.Adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.administrator.myapplication.ItemFragment.OnListFragmentInteractionListener;
+import com.example.administrator.myapplication.ItemList.ItemFragment.OnListFragmentInteractionListener;
+import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.dummy.DummyContent.DummyItem;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication;
+package com.example.administrator.myapplication.ItemList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.administrator.myapplication.ItemDetail.ItemDetailActivity;
+import com.example.administrator.myapplication.ItemDetail.ItemDetailFragment;
+import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.dummy.DummyContent;
 
 import java.util.List;

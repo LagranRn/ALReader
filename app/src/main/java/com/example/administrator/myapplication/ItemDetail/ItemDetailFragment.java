@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication;
+package com.example.administrator.myapplication.ItemDetail;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.administrator.myapplication.ItemList.ItemListActivity;
+import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.dummy.DummyContent;
 
 /**

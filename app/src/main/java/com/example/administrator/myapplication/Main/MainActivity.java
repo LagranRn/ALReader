@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication;
+package com.example.administrator.myapplication.Main;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,33 +6,37 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
+import com.example.administrator.myapplication.Adapter.FragmentAdapter;
+import com.example.administrator.myapplication.ItemDetail.ItemDetailActivity;
+import com.example.administrator.myapplication.ItemDetail.ItemDetailFragment;
+import com.example.administrator.myapplication.ItemList.ItemFragment;
+import com.example.administrator.myapplication.ItemList.ItemListActivity;
+import com.example.administrator.myapplication.MyStar.BlankFragment;
+import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.dummy.DummyContent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener,PlusOneFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PlusOneFragment plusOneFragment = new PlusOneFragment();
-        ItemFragment itemFragment = new ItemFragment();
-
         List<Fragment> mFragments = new ArrayList<>();
 
-        mFragments.add(itemFragment);
-        mFragments.add(plusOneFragment);
+        mFragments.add(ItemFragment.newInstance(2));
+        mFragments.add(BlankFragment.newInstance());
 
-        FragmentAdapter  adapter = new FragmentAdapter(getSupportFragmentManager());
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
         adapter.setmFragment(mFragments);
 
         ViewPager mViewPager = findViewById(R.id.vp_Container);
         mViewPager.setAdapter(adapter);
+        startActivity(new Intent(MainActivity.this,ItemListActivity.class));
     }
 
     @Override
@@ -43,8 +47,4 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }
