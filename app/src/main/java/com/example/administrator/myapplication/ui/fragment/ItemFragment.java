@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.BookList;
+package com.example.administrator.myapplication.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 
 import com.example.administrator.myapplication.Adapter.MyItemRecyclerViewAdapter;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.dummy.DummyContent;
-import com.example.administrator.myapplication.dummy.DummyContent.DummyItem;
+import com.example.administrator.myapplication.bean.DummyContent;
+import com.example.administrator.myapplication.bean.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.

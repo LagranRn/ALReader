@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.MyStar;
+package com.example.administrator.myapplication.ui.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -11,10 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.administrator.myapplication.ui.viewmodel.BlankViewModel;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.reading.BookReadActivity;
+import com.example.administrator.myapplication.ui.activity.BookReadActivity;
 
-public class BlankFragment extends Fragment implements BlankContract.View {
+public class BlankFragment extends Fragment  {
 
     private BlankViewModel mViewModel;
     private Button mButton;
@@ -45,8 +46,5 @@ public class BlankFragment extends Fragment implements BlankContract.View {
 
     }
 
-    @Override
-    public void loadMore() {
-        System.out.println(111);
-    }
+
 }

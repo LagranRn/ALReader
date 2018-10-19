@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.BookDetail;
+package com.example.administrator.myapplication.ui.fragment;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.dummy.DummyContent;
+import com.example.administrator.myapplication.bean.DummyContent;
 
 
 public class BookDetailFragment extends Fragment {

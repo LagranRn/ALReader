@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.Main;
+package com.example.administrator.myapplication.ui.activity;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -7,12 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.administrator.myapplication.Adapter.FragmentAdapter;
-import com.example.administrator.myapplication.BookDetail.BookDetailActivity;
-import com.example.administrator.myapplication.BookDetail.BookDetailFragment;
-import com.example.administrator.myapplication.BookList.ItemFragment;
-import com.example.administrator.myapplication.MyStar.BlankFragment;
+import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
+import com.example.administrator.myapplication.ui.fragment.ItemFragment;
+import com.example.administrator.myapplication.ui.fragment.BlankFragment;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.dummy.DummyContent;
+import com.example.administrator.myapplication.bean.DummyContent;
 
 import java.util.ArrayList;
 import java.util.List;

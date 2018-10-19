@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.administrator.myapplication.BookList.ItemFragment.OnListFragmentInteractionListener;
+import com.example.administrator.myapplication.ui.fragment.ItemFragment.OnListFragmentInteractionListener;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.dummy.DummyContent.DummyItem;
+import com.example.administrator.myapplication.bean.DummyContent.DummyItem;
 
 import java.util.List;
 

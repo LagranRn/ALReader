@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.dummy;
+package com.example.administrator.myapplication.bean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
