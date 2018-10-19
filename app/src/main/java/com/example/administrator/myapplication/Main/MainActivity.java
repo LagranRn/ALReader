@@ -7,9 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.administrator.myapplication.Adapter.FragmentAdapter;
-import com.example.administrator.myapplication.ItemDetail.ItemDetailActivity;
-import com.example.administrator.myapplication.ItemDetail.ItemDetailFragment;
-import com.example.administrator.myapplication.ItemList.ItemFragment;
+import com.example.administrator.myapplication.BookDetail.BookDetailActivity;
+import com.example.administrator.myapplication.BookDetail.BookDetailFragment;
+import com.example.administrator.myapplication.BookList.ItemFragment;
 import com.example.administrator.myapplication.MyStar.BlankFragment;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.dummy.DummyContent;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        Intent intent = new Intent(MainActivity.this,ItemDetailActivity.class);
-        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID,item.id);
+        Intent intent = new Intent(MainActivity.this,BookDetailActivity.class);
+        intent.putExtra(BookDetailFragment.ARG_ITEM_ID,item.id);
         startActivity(intent);
 
     }

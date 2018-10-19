@@ -2,4 +2,7 @@
     <string name="app_name">疯享榜单</string>
     <string name="title_item_list">电影</string>
     <string name="title_item_detail">详情</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

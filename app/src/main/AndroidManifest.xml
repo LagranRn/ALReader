@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ItemDetail.ItemDetailActivity"
+            android:name=".BookDetail.BookDetailActivity"
             android:label="@string/title_item_detail"
             android:parentActivityName=".Main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -28,6 +28,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.administrator.myapplication.Main.MainActivity" />
         </activity>
+        <activity android:name=".reading.BookReadActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

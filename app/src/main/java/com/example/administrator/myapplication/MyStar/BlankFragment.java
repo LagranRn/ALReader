@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.MyStar;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.administrator.myapplication.R;
+import com.example.administrator.myapplication.reading.BookReadActivity;
 
-public class BlankFragment extends Fragment {
+public class BlankFragment extends Fragment implements BlankContract.View {
 
     private BlankViewModel mViewModel;
     private Button mButton;
@@ -38,10 +39,14 @@ public class BlankFragment extends Fragment {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "nihao?", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(),BookReadActivity.class));
             }
         });
 
     }
 
+    @Override
+    public void loadMore() {
+        System.out.println(111);
+    }
 }
