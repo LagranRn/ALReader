@@ -17,6 +17,7 @@ public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter
     public ChapterItemAdapter(List<String> chapters) {
         this.chapters = chapters;
     }
+    IChapterItemAdapterListener mListener;
 
     @NonNull
     @Override
@@ -27,8 +28,26 @@ public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyHolder myHolder, int i) {
+    public void onBindViewHolder(@NonNull MyHolder myHolder, final int i) {
         myHolder.tv_Chapter.setText("第"+(i+1)+"章 "+chapters.get(i));
+        myHolder.tv_Chapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.onItemClick(i);
+            }
+        });
+
+        myHolder.tv_Chapter.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mListener.onItemLongClick(i);
+                return false;
+            }
+        });
+    }
+
+    public void setClickListener(IChapterItemAdapterListener listener){
+        mListener = listener;
     }
 
     @Override
@@ -38,9 +57,20 @@ public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter
 
     class MyHolder extends RecyclerView.ViewHolder{
         public TextView tv_Chapter;
+
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             tv_Chapter = (TextView) itemView.findViewById(R.id.category_tv_chapter);
         }
+
+    }
+
+    public interface IChapterItemAdapterListener {
+
+        //传入章节索引
+        void onItemClick(int chapterIndex);
+
+        void onItemLongClick(int chapterIndex);
+
     }
 }

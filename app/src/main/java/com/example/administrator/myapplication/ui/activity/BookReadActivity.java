@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,12 +31,15 @@ import butterknife.ButterKnife;
 import cn.xfangfang.paperviewlibrary.PaperView;
 
 public class BookReadActivity extends AppCompatActivity {
+
     private static final String TAG = "BookReadActivity";
     SharedPreferences.Editor stateEditer;
     SharedPreferences stateReader;
 
     BookUtil bk;
     int current = 0;
+    Animation menuShowAnim;
+    Animation menuHideAnim;
 
     @BindView(R.id.read_pv)
     PaperView pv;
@@ -69,6 +74,8 @@ public class BookReadActivity extends AppCompatActivity {
     public void initData(){
 
         new GetBookTask().execute("1本书");
+        menuHideAnim = AnimationUtils.loadAnimation(this, R.anim.menu_hide);
+        menuShowAnim = AnimationUtils.loadAnimation(this, R.anim.menu_show);
 
     }
 
@@ -123,9 +130,10 @@ public class BookReadActivity extends AppCompatActivity {
 
                     if (rl.isShown()){
                         rl.setVisibility(View.INVISIBLE);
-
+                        rl.startAnimation(menuHideAnim);
                     } else {
                         rl.setVisibility(View.VISIBLE);
+                        rl.startAnimation(menuShowAnim);
                     }
 
                     Log.d(TAG, "centerClicked: 点击中部时");
@@ -154,12 +162,22 @@ public class BookReadActivity extends AppCompatActivity {
             RecyclerView recyslerview = (RecyclerView) findViewById(R.id.rv_read_category);
             recyslerview.setLayoutManager(new LinearLayoutManager(new BookReadActivity()));
             ChapterItemAdapter adapter = new ChapterItemAdapter(bk.getChapterNames());
+            adapter.setClickListener(new ChapterItemAdapter.IChapterItemAdapterListener() {
+                @Override
+                public void onItemClick(int chapterIndex) {
+                    // TODO 添加 处理事件
+                    Log.d(TAG, "onItemClick: fff");
+                }
+
+                @Override
+                public void onItemLongClick(int chapterIndex) {
+                    // TODO 添加 处理事件
+                    Log.d(TAG, "onItemLongClick: fff");
+                }
+            });
             recyslerview.setAdapter(adapter);
 
         }
-
-
-
 
     }
 
@@ -216,6 +234,7 @@ public class BookReadActivity extends AppCompatActivity {
     public void openCategory(View view){
         mDrawerLayout.openDrawer(Gravity.START);
         rl.setVisibility(View.GONE);
+        rl.startAnimation(menuHideAnim);
     }
 
 }
