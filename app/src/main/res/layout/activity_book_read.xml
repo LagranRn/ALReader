@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_marginTop="0dp"
+            android:background="@mipmap/theme_leather_bg"
             app:textLine="15"
             app:textSize="16sp">
 

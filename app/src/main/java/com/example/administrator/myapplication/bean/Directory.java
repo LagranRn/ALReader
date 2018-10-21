@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.util;
+package com.example.administrator.myapplication.bean;
 
 public class Directory {
     private String title;

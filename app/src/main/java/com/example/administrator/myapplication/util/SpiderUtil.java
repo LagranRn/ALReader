@@ -1,5 +1,11 @@
 package com.example.administrator.myapplication.util;
 
+import android.util.Log;
+
+import com.example.administrator.myapplication.bean.Constant;
+import com.example.administrator.myapplication.bean.Directory;
+import com.example.administrator.myapplication.bean.Novel;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +17,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Spider {
+public class SpiderUtil {
+    private static final String TAG = "SpiderUtil";
 
     private static final String NOVEL_REG = "class=\"s2\"><a href=\"(.*?)\">(.*?)<.*?\">(.*?)<";
     private static final String CHAPTER_REG = "id=\"content\">(.*?)</div>";
@@ -19,19 +26,21 @@ public class Spider {
 
     // 获取小说
     public static List<Novel> getNovels(String url) {
+
         List<Novel> novels = new ArrayList<>(); // 存放小说
         List<String> names = new ArrayList<>(); // 存放小说名，防止重复
-
+        int size = 5;
         try {
             BufferedReader reader = null;
             URL resultUrl = new URL(url);
             URLConnection conn = resultUrl.openConnection();
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gbk"));
 
             String line = null;
             StringBuilder sb = new StringBuilder();
             // 获取网页
             while ((line = reader.readLine()) != null) {
+
                 sb.append(line);
             }
 
@@ -39,14 +48,24 @@ public class Spider {
             Matcher matcher = pattern.matcher(sb.toString());
 
             while (matcher.find()) {
-                if (names.indexOf(matcher.group(2)) == -1) {
-                    Novel newNovel = new Novel();
-                    newNovel.setAuthor(matcher.group(3));
-                    newNovel.setName(matcher.group(2));
-                    newNovel.setUrl(matcher.group(1));
-                    novels.add(newNovel);
-                    names.add(newNovel.getName());
-                }
+
+                    if (names.indexOf(matcher.group(2)) == -1) {
+
+
+                        Novel newNovel = new Novel();
+                        newNovel.setAuthor(matcher.group(3));
+                        newNovel.setName(matcher.group(2));
+                        newNovel.setUrl(matcher.group(1));
+                        novels.add(newNovel);
+                        names.add(newNovel.getName());
+                        size --;
+                        if (size < 0){
+                            reader.close();
+                            return novels;
+                        }
+                    }
+
+
             }
 
             if (reader != null) {
@@ -70,7 +89,7 @@ public class Spider {
             BufferedReader reader = null;
             URL resultUrl = new URL(bookUrl);
             URLConnection conn = resultUrl.openConnection();
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gbk"));
 
             String line = null;
             StringBuilder sb = new StringBuilder();
@@ -111,7 +130,7 @@ public class Spider {
             BufferedReader reader = null;
             URL resultUrl = new URL(chapterUrl);
             URLConnection conn = resultUrl.openConnection();
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gbk"));
 
             String line = null;
             StringBuilder sb = new StringBuilder();

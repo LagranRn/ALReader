@@ -13,6 +13,7 @@ import java.io.OutputStreamWriter;
 
 public class MemoryUtil {
     private static final String TAG = "MemoryUtil";
+
     public static void saveBook(Context context){
         Log.d(TAG, "saveBook: 进来了");
         String data = "wo shi 你爸爸！";

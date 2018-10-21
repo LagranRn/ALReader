@@ -3,6 +3,9 @@ package com.example.administrator.myapplication.ui.fragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -13,7 +16,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
+import android.net.Uri;
 
 import com.example.administrator.myapplication.ui.viewmodel.BlankViewModel;
 import com.example.administrator.myapplication.R;
@@ -26,6 +31,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class BlankFragment extends Fragment {
 
@@ -35,6 +42,8 @@ public class BlankFragment extends Fragment {
     private Button mButton;
     private Button mFileTest;
     private ConnUtil connUtil;
+
+    private ImageView iv;
 
     private Context context;
 
@@ -54,6 +63,8 @@ public class BlankFragment extends Fragment {
         View view = inflater.inflate(R.layout.blank_fragment, container, false);
         mButton = view.findViewById(R.id.mButtonTest);
         mFileTest = view.findViewById(R.id.blank_btn_fileTest);
+
+        iv = view.findViewById(R.id.blank_iv_test);
         return view;
     }
 
@@ -64,19 +75,26 @@ public class BlankFragment extends Fragment {
 
         // TODO: Use the ViewModel
 
-        new Thread(new Runnable() {
+       /* new Thread(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "run: 链接中...");
                 connUtil = new ConnUtil();
                 connUtil.Conn2Server();
             }
-        }).start();
+        }).start();*/
 
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                URL picUrl = null;
+                try {
+                    picUrl = new URL("http://www.biquge.com.tw/files/article/image/14/14055/14055s.jpg");
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
 
+                new MyAsyncTask().execute(picUrl);
             }
         });
 
@@ -109,6 +127,27 @@ public class BlankFragment extends Fragment {
 
             }
         });
+    }
+
+    class MyAsyncTask extends AsyncTask<URL,Void,Bitmap>{
+        @Override
+        protected Bitmap doInBackground(URL... urls) {
+            Bitmap pngBM = null;
+            try {
+                Log.d(TAG, "doInBackground: 正在请求网页？");
+                Log.d(TAG, "doInBackground: " + urls[0]);
+                pngBM = BitmapFactory.decodeStream(urls[0].openStream());
+                Log.d(TAG, "doInBackground: 已经获取到图片");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return pngBM;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            iv.setImageBitmap(bitmap);
+        }
     }
 
 }
