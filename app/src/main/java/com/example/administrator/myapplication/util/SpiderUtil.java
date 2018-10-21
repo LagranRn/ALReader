@@ -23,92 +23,45 @@ public class SpiderUtil {
     private static final String NOVEL_REG = "class=\"s2\"><a href=\"(.*?)\">(.*?)<.*?\">(.*?)<";
     private static final String CHAPTER_REG = "id=\"content\">(.*?)</div>";
     private static final String DIR_REG = "<dd><a href=\"(.*?)\">(.*?)</a>";
+    private static final String DETAIL_REG = "title\" content=\"(.*?)\"" + ".*?" + "description\" content=\"(.*?)\"/>"
+            + ".*?" + "image\" content=\"(.*?)\"/>" + ".*?" + "author\" content=\"(.*?)\"/>" + ".*?"
+            + "status\" content=\"(.*?)\"/>" + ".*?" + "update_time\" content=\"(.*?)\"/>" + ".*?"
+            + "latest_chapter_name\" content=\"(.*?)\"/>";
 
     // 获取小说
     public static List<Novel> getNovels(String url) {
-
         List<Novel> novels = new ArrayList<>(); // 存放小说
         List<String> names = new ArrayList<>(); // 存放小说名，防止重复
-        try {
-            BufferedReader reader = null;
-            URL resultUrl = new URL(url);
-            URLConnection conn = resultUrl.openConnection();
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gbk"));
 
-            String line = null;
-            StringBuilder sb = new StringBuilder();
-            // 获取网页
-            while ((line = reader.readLine()) != null) {
+        Pattern pattern = Pattern.compile(NOVEL_REG);
+        Matcher matcher = pattern.matcher(getHtml(url, "\n"));
 
-                sb.append(line);
+        while (matcher.find()) {
+            if (names.indexOf(matcher.group(2)) == -1) {
+                Novel newNovel = new Novel();
+                newNovel.setAuthor(matcher.group(3));
+                newNovel.setName(matcher.group(2));
+                newNovel.setUrl(matcher.group(1));
+                novels.add(newNovel);
+                names.add(newNovel.getName());
             }
-
-            Pattern pattern = Pattern.compile(NOVEL_REG);
-            Matcher matcher = pattern.matcher(sb.toString());
-
-            while (matcher.find()) {
-
-                    if (names.indexOf(matcher.group(2)) == -1) {
-
-                        Novel newNovel = new Novel();
-                        newNovel.setAuthor(matcher.group(3));
-                        newNovel.setName(matcher.group(2));
-                        newNovel.setUrl(matcher.group(1));
-                        novels.add(newNovel);
-                        names.add(newNovel.getName());
-
-                    }
-
-            }
-
-            if (reader != null) {
-                reader.close();
-            }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
         return novels;
     }
 
-    // 获取所有 章节
+    // 获取所有 章节 小说一些详情
     public static List<Directory> getDirectory(String bookUrl) {
         List<Directory> dirs = new ArrayList<>();
 
-        try {
-            BufferedReader reader = null;
-            URL resultUrl = new URL(bookUrl);
-            URLConnection conn = resultUrl.openConnection();
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gbk"));
+        Pattern pattern = Pattern.compile(DIR_REG);
+        Matcher matcher = pattern.matcher(getHtml(bookUrl, "\n"));
 
-            String line = null;
-            StringBuilder sb = new StringBuilder();
-            // 获取网页
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-
-            Pattern pattern = Pattern.compile(DIR_REG);
-            Matcher matcher = pattern.matcher(sb.toString());
-
-            while (matcher.find()) {
-                Directory newDir = new Directory();
-                newDir.setTitle(matcher.group(2));
-                newDir.setUrl(Constant.BIQUGE + matcher.group(1));
-                dirs.add(newDir);
-            }
-
-            if (reader != null) {
-                reader.close();
-            }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        while (matcher.find()) {
+            Directory newDir = new Directory();
+            newDir.setTitle(matcher.group(2));
+            newDir.setUrl(Constant.BIQUGE + matcher.group(1));
+            dirs.add(newDir);
         }
 
         return dirs;
@@ -117,26 +70,53 @@ public class SpiderUtil {
     // 获取每一章的内容
     public static String getChapterContent(String chapterUrl) {
 
-        String content = "";
+        String html = getHtml(chapterUrl, "\n");
 
+        // 获取内容
+        String content = html.toString()
+                .substring(html.indexOf("id=\"content\">") + "id=\"content\">".length(),
+                        html.indexOf("</div>", html.indexOf("id=\"content\">")))
+                .replace("&nbsp;", " ").replace("<br />", "");
+
+        return content;
+    }
+
+    // 一次返回小说的书名、简介、封面地址、作者、状态（更新、停更等）、最后更新时间、最新章节
+    public static List<String> getNovelDetails(String bookUrl) {
+        List<String> details = new ArrayList<String>();
+
+        String html = getHtml(bookUrl, "");
+
+        Pattern pattern = Pattern.compile(DETAIL_REG);
+        Matcher matcher = pattern.matcher(html);
+
+        if (matcher.find()) {
+            details.add(matcher.group(1));
+            details.add(matcher.group(2));
+            details.add(matcher.group(3));
+            details.add(matcher.group(4));
+            details.add(matcher.group(5));
+            details.add(matcher.group(6));
+            details.add(matcher.group(7));
+        }
+        return details;
+    }
+
+    // 获取网页
+    private static String getHtml(String url, String kind) {
+
+        StringBuilder sb = new StringBuilder();
         try {
             BufferedReader reader = null;
-            URL resultUrl = new URL(chapterUrl);
+            URL resultUrl = new URL(url);
             URLConnection conn = resultUrl.openConnection();
             reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gbk"));
 
             String line = null;
-            StringBuilder sb = new StringBuilder();
-            // 获取网页
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
 
-            // 获取内容
-            content = sb.toString()
-                    .substring(sb.indexOf("id=\"content\">") + "id=\"content\">".length(),
-                            sb.indexOf("</div>", sb.indexOf("id=\"content\">")))
-                    .replace("&nbsp;", " ").replace("<br />", "");
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + kind);
+            }
 
             if (reader != null) {
                 reader.close();
@@ -148,8 +128,7 @@ public class SpiderUtil {
             e.printStackTrace();
         }
 
-        return content;
+        return sb.toString();
     }
-
 }
 
