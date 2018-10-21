@@ -62,6 +62,8 @@ public class BookReadActivity extends AppCompatActivity {
 
         initData();
 
+
+
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
     }

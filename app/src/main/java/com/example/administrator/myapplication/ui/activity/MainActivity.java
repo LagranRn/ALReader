@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.getExternalFilesDir(null);
 
         List<Fragment> mFragments = new ArrayList<>();
 
