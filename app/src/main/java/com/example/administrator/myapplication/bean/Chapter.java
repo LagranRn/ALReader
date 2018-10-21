@@ -2,8 +2,8 @@ package com.example.administrator.myapplication.bean;
 
 public class Chapter {
 
-    public String name;
-    public String content;
+    public String name;  // 章节名字  如果是序言，章节名则为 preface
+    public String content; // 每一章的内容
 
     public String getName() {
         return name;
