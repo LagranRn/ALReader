@@ -29,7 +29,6 @@ public class SpiderUtil {
 
         List<Novel> novels = new ArrayList<>(); // 存放小说
         List<String> names = new ArrayList<>(); // 存放小说名，防止重复
-        int size = 5;
         try {
             BufferedReader reader = null;
             URL resultUrl = new URL(url);
@@ -51,20 +50,14 @@ public class SpiderUtil {
 
                     if (names.indexOf(matcher.group(2)) == -1) {
 
-
                         Novel newNovel = new Novel();
                         newNovel.setAuthor(matcher.group(3));
                         newNovel.setName(matcher.group(2));
                         newNovel.setUrl(matcher.group(1));
                         novels.add(newNovel);
                         names.add(newNovel.getName());
-                        size --;
-                        if (size < 0){
-                            reader.close();
-                            return novels;
-                        }
-                    }
 
+                    }
 
             }
 

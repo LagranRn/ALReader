@@ -16,7 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.administrator.myapplication.bean.Constant;
 import com.example.administrator.myapplication.bean.Novel;
 import com.example.administrator.myapplication.ui.activity.MainActivity;
@@ -33,6 +35,7 @@ public class BookDetailActivity extends AppCompatActivity {
     Bitmap pngBM = null;
     Novel novel;
     AppBarLayout appBarLayout;
+    ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,18 +44,19 @@ public class BookDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         appBarLayout = findViewById(R.id.app_bar);
 
+        imageView = findViewById(R.id.detail_image);
 
         for (int i = 0; i < Constant.NOVELS.size(); i ++){
             if (Constant.NOVELS.get(i).getUrl().trim().equals(getIntent().getStringExtra(BookDetailFragment.ARG_ITEM_ID))){
                 novel = Constant.NOVELS.get(i);
-                pngBM = novel.getCoverBitmap();
                 break;
             }
         }
 
-        if (pngBM!=null){
-            appBarLayout.setBackground(new BitmapDrawable(pngBM));
-        }
+        Glide.with(this)
+                .load(novel.getCover())
+                .into(imageView);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 

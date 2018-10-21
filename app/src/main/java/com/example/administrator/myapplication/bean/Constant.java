@@ -9,5 +9,4 @@ public class Constant {
     public static final String BIQUGE = "http://www.biquge.com.tw";
 
     public static List<Novel> NOVELS = new ArrayList<>();
-
 }

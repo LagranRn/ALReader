@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.administrator.myapplication.ui.fragment.BlankFragment;
 import com.example.administrator.myapplication.ui.fragment.ItemFragment.OnListFragmentInteractionListener;
 import com.example.administrator.myapplication.R;
@@ -51,7 +53,9 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         holder.novel = mNovels.get(position);
         holder.mIdView.setText("作者："+mNovels.get(position).getAuthor());
         holder.mContentView.setText("标题："+mNovels.get(position).getName());
-        holder.mImageView.setImageBitmap(mNovels.get(position).getCoverBitmap());
+        Glide.with(holder.itemView.getContext())
+                .load(mNovels.get(position).getCover())
+                .into(holder.mImageView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +119,5 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
-
 
 }
