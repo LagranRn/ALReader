@@ -1,16 +1,10 @@
 package com.example.administrator.myapplication.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
@@ -19,16 +13,9 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.example.administrator.myapplication.bean.Constant;
 import com.example.administrator.myapplication.bean.Novel;
-import com.example.administrator.myapplication.ui.activity.MainActivity;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,7 +44,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
 
         this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_detail);
+        setContentView(R.layout.activity_detail);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);

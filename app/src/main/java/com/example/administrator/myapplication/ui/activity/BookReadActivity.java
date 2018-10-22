@@ -23,16 +23,9 @@ import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.bean.Chapter;
 import com.example.administrator.myapplication.bean.Directory;
 import com.example.administrator.myapplication.bean.Novel;
-import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
 import com.example.administrator.myapplication.util.BookUtil;
 import com.example.administrator.myapplication.util.SpiderUtil;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -83,7 +76,7 @@ public class BookReadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_read);
+        setContentView(R.layout.activity_read);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);

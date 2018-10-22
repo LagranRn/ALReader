@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -123,25 +124,39 @@ public class BlankFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            Log.e(TAG, "onActivityResult() error, resultCode: " + resultCode);
-            super.onActivityResult(requestCode, resultCode, data);
-            return;
-        }
-        if (requestCode == FILE_SELECT_CODE) {
-            Uri uri = data.getData();
-            String path = getRealPathFromURI(uri);
-            Log.i(TAG, "------->" + uri.getPath());
+        if (resultCode ==Activity.RESULT_OK&&requestCode==FILE_SELECT_CODE){
+            Uri uri = data.getData();//得到uri，后面就是将uri转化成file的过程。
+            String string =uri.toString();
+            File file;
+            String a[]=new String[2];
+            //判断文件是否在sd卡中
+            String path = new String ();
+            if (string.indexOf(String.valueOf(Environment.getExternalStorageDirectory()))!=-1){
+                //对Uri进行切割
+                a = string.split(String.valueOf(Environment.getExternalStorageDirectory()));
+                //获取到file
+                file = new File(Environment.getExternalStorageDirectory(),a[1]);
+                path = file.getAbsolutePath();
+            }else if(string.indexOf(String.valueOf(Environment.getDataDirectory()))!=-1){ //判断文件是否在手机内存中
+                //对Uri进行切割
+                a =string.split(String.valueOf(Environment.getDataDirectory()));
+                //获取到file
+                file = new File(Environment.getDataDirectory(),a[1]);
+                path = file.getAbsolutePath();
+            }else{
+                //出现其他没有考虑到的情况
+                Log.d(TAG, "onActivityResult: 绝对路径" + getRealPathFromURI(data.getData()));
+                path = getRealPathFromURI(data.getData());
+                Toast.makeText(context, "获取到绝对路径", Toast.LENGTH_SHORT).show();
+            }
             Log.d(TAG, "onActivityResult: " + path);
-
-
 
             Intent intent = new Intent(context,BookReadActivity.class);
             intent.putExtra("bookType","1");
             intent.putExtra("bookUrl",path);
             startActivity(intent);
         }
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
     public String getRealPathFromURI(Uri contentUri) {
         String res = null;

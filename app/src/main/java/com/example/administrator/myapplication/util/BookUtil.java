@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +32,14 @@ public class BookUtil {
 
         this();
         try {
+            InputStreamReader isr = null;
+                isr = new InputStreamReader(new FileInputStream(new File(bookUrl)),"Unicode");
 
-            InputStreamReader isr = new InputStreamReader(new FileInputStream(new File(bookUrl)));
             handleBook(isr);
 
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }  catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
@@ -106,8 +110,8 @@ public class BookUtil {
                         newChapter = new Chapter();
                     }
 
-                    newChapter.setName(temp.substring(temp.indexOf("章") + 1).trim());
-                    chapterName.add(temp.substring(temp.indexOf("章") + 1).trim());
+                    newChapter.setName(temp.substring(temp.indexOf("第")).trim());
+                    chapterName.add(temp.substring(temp.indexOf("第")).trim());
 
                 } else {
                     sb.append(temp + "\n");

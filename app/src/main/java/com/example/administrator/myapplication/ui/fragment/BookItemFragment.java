@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.administrator.myapplication.Adapter.MyItemRecyclerViewAdapter;
 import com.example.administrator.myapplication.R;
@@ -23,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BookItemFragment extends Fragment {
+public class BookItemFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "BookItemFragment";
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
@@ -33,6 +35,16 @@ public class BookItemFragment extends Fragment {
     RecyclerView recyclerView;
     @BindView(R.id.item_progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.list_china)
+    TextView china;
+    @BindView(R.id.list_city)
+    TextView city;
+    @BindView(R.id.list_fantacy)
+    TextView fantacy;
+    @BindView(R.id.list_history)
+    TextView history;
+    @BindView(R.id.list_onlineGame)
+    TextView onlineGame;
 
     public BookItemFragment() {
     }
@@ -68,7 +80,12 @@ public class BookItemFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            new NovelAsyncTask().execute();
+             new NovelAsyncTask().execute(Constant.CHINA_URL);
+            china.setOnClickListener(this);
+            fantacy.setOnClickListener(this);
+            city.setOnClickListener(this);
+            history.setOnClickListener(this);
+            onlineGame.setOnClickListener(this);
 
         return view;
     }
@@ -91,16 +108,42 @@ public class BookItemFragment extends Fragment {
         mListener = null;
     }
 
-    public class NovelAsyncTask extends AsyncTask<Void,Void,List<Novel>>{
-        @Override
-        protected List<Novel> doInBackground(Void... voids) {
+    @Override
+    public void onClick(View v) {
+        progressBar.setVisibility(View.VISIBLE);
+        switch (v.getId()){
+            case R.id.list_china:
+                Log.d(TAG, "onClick: china" );
+                new NovelAsyncTask().execute(Constant.CHINA_URL);
+                break;
+            case R.id.list_city:
+                Log.d(TAG, "onClick: city");
+                new NovelAsyncTask().execute(Constant.CITY_URL);
+                break;
+            case R.id.list_fantacy:
+                Log.d(TAG, "onClick: fantacy");
+                new NovelAsyncTask().execute(Constant.FANTACY_URL);
+                break;
+            case R.id.list_history:
+                new NovelAsyncTask().execute(Constant.HISTORY_URL);
+                break;
+            case R.id.list_onlineGame:
+                new NovelAsyncTask().execute(Constant.ONLINEGAME_URL);
+                break;
+        }
+    }
 
-            return SpiderUtil.getNovels(Constant.GIRL_URL);
+    public class NovelAsyncTask extends AsyncTask<String,Void,List<Novel>>{
+
+        @Override
+        protected List<Novel> doInBackground(String... strings) {
+            return SpiderUtil.getNovels(strings[0]);
         }
 
         @Override
         protected void onPostExecute(List<Novel> novels) {
             super.onPostExecute(novels);
+            Log.d(TAG, "onPostExecute: " + novels.size());
             recyclerView.setAdapter(new MyItemRecyclerViewAdapter(novels, mListener));
             progressBar.setVisibility(View.INVISIBLE);
 

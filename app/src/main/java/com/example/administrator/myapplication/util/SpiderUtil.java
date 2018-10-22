@@ -110,7 +110,7 @@ public class SpiderUtil {
             BufferedReader reader = null;
             URL resultUrl = new URL(url);
             URLConnection conn = resultUrl.openConnection();
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"gbk"));
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"GBK"));
 
             String line = null;
 

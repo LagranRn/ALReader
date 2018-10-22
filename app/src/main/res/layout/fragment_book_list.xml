@@ -11,37 +11,48 @@
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="都市"/>
+            android:text="都市"
+            android:background="@drawable/button_style"
+            android:id="@+id/list_city"/>
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="玄幻"/>
+            android:text="玄幻"
+            android:background="@drawable/button_style"
+            android:id="@+id/list_fantacy"/>
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="修真"/>
+            android:text="修真"
+            android:background="@drawable/button_style"
+            android:id="@+id/list_china"/>
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="历史"/>
+            android:text="历史"
+            android:background="@drawable/button_style"
+            android:id="@+id/list_history"/>
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="网游"/>
+            android:text="网游"
+            android:background="@drawable/button_style"
+            android:id="@+id/list_onlineGame"/>
 
     </LinearLayout>
 
@@ -52,7 +63,6 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
