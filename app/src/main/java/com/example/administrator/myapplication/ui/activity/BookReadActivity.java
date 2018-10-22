@@ -22,6 +22,8 @@ import com.example.administrator.myapplication.Adapter.ChapterItemAdapter;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.bean.Chapter;
 import com.example.administrator.myapplication.bean.Directory;
+import com.example.administrator.myapplication.bean.Novel;
+import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
 import com.example.administrator.myapplication.util.BookUtil;
 import com.example.administrator.myapplication.util.SpiderUtil;
 
@@ -44,7 +46,7 @@ public class BookReadActivity extends AppCompatActivity {
     int current = 0;
 
     String url;
-    int bookType = 1; //0,在线；1本地
+    String bookType = "1"; //0,在线；1本地
     List<Directory> directories = new ArrayList<>();
 
     Chapter chapter = new Chapter();
@@ -54,6 +56,8 @@ public class BookReadActivity extends AppCompatActivity {
     String titleName;
     String content;
     String titleUrl;
+
+    Novel novel;
 
     @BindView(R.id.read_pv)
     PaperView pv;
@@ -79,27 +83,22 @@ public class BookReadActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
 
-        url = getIntent().getStringExtra("bookurl");
+        novel = (Novel) getIntent()
+                .getBundleExtra("novel")
+                .getSerializable("novel");
+        bookType = getIntent()
+                .getStringExtra("booktype");
+        Log.d(TAG, "onCreate: 书名"+novel.getName());
+        Log.d(TAG, "onCreate: 读书类型" + bookType);
         initData();
-
+        new GetBookTask().execute();
         Log.d(TAG, "onCreate: " + url);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
     }
 
     public void initData(){
-        if (url != null ){
-            Log.d(TAG, "initData: online");
-            bookType = 0;
 
-            new GetBookTask().execute("1本书");
-
-        } else {
-            Log.d(TAG, "initData: offline");
-
-            new GetBookTask().execute("1本书");
-
-        }
         menuHideAnim = AnimationUtils.loadAnimation(this, R.anim.menu_hide);
         menuShowAnim = AnimationUtils.loadAnimation(this, R.anim.menu_show);
 
@@ -130,17 +129,16 @@ public class BookReadActivity extends AppCompatActivity {
         protected Boolean doInBackground(String... strings) {
             switch (bookType){
 
-                case 0:
-                    directories = SpiderUtil.getDirectory(url);
-                    titleUrl = directories.get(current).getUrl();
-                    titleName = directories.get(current).getTitle();
+                case "0":
+                    directories = SpiderUtil.getDirectory(novel.getUrl());
 
 
                     break;
 
-                case 1:
+                case "1":
 
                     try {
+
                         bk = new BookUtil(new InputStreamReader(getAssets().open("test.txt")));
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -222,14 +220,16 @@ public class BookReadActivity extends AppCompatActivity {
 
 
             List<String> chapterNames = new ArrayList<>();
+            titleUrl = directories.get(current).getUrl();
+            titleName = directories.get(current).getTitle();
             switch (bookType) {
-                case 0:
+                case "0":
                     new GetChapterTask().execute(titleUrl);
                     for (int i = 0; i < directories.size(); i ++){
                         chapterNames.add(directories.get(i).getTitle());
                     }
                     break;
-                case 1:
+                case "1":
                     new GetChapterTask().execute("offline");
                     chapterNames = bk.getChapterNames();
                     break;
@@ -240,16 +240,17 @@ public class BookReadActivity extends AppCompatActivity {
             RecyclerView recyslerview = (RecyclerView) findViewById(R.id.rv_read_category);
             recyslerview.setLayoutManager(new LinearLayoutManager(new BookReadActivity()));
             ChapterItemAdapter adapter = new ChapterItemAdapter(chapterNames);
+
             adapter.setClickListener(new ChapterItemAdapter.IChapterItemAdapterListener() {
                 @Override
                 public void onItemClick(int chapterIndex) {
                     switch (bookType) {
-                        case 0:
+                        case "0":
                             titleUrl = directories.get(chapterIndex).getUrl();
                             current = chapterIndex;
                             new GetChapterTask().execute(titleUrl);
                             break;
-                        case 1:
+                        case "1":
                             current = chapterIndex;
                             new GetChapterTask().execute();
                             break;
@@ -285,12 +286,12 @@ public class BookReadActivity extends AppCompatActivity {
         @Override
         protected Chapter doInBackground(String... strings) {
             switch (bookType){
-                case 0:
+                case "0":
                     content = SpiderUtil.getChapterContent(titleUrl);
-                    chapter.setName(titleName);
+                    chapter.setName(directories.get(current).getTitle());
                     chapter.setContent(content);
                     break;
-                case 1:
+                case "1":
                     chapter = bk.getChapter(current);
                     break;
                     default:
@@ -302,8 +303,8 @@ public class BookReadActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Chapter s) {
-            pv.setChapterName("桃源三结义");
-            pv.setExtraInfo("第" + (current+1)+ "章 "+s.getName());
+            pv.setChapterName(novel.getName());
+            pv.setExtraInfo(s.getName());
 //            pv.setBackgroundColor(0xC8E6C9);
             pv.setContentTextColor("#002505");
             pv.setInfoTextColor("#8a000000");
@@ -322,14 +323,14 @@ public class BookReadActivity extends AppCompatActivity {
     }
     public void nextChapter(View view){
         switch (bookType){
-            case 0:
+            case "0":
                 if (current < directories.size()){
                     current++;
                     titleUrl = directories.get(current).getUrl();
                     new GetChapterTask().execute(titleUrl);
                 }
                 break;
-            case 1:
+            case "1":
                 if (current < bk.getChapterCount()){
                     current++;
                     new GetChapterTask().execute();
@@ -344,14 +345,14 @@ public class BookReadActivity extends AppCompatActivity {
     public void lastChapter(View view){
         Log.d(TAG, "lastChapter: 点击");
         switch (bookType){
-            case 0:
+            case "0":
                 if (current > 0){
                     current--;
                     titleUrl = directories.get(current).getUrl();
                     new GetChapterTask().execute(titleUrl);
                 }
                 break;
-            case 1:
+            case "1":
                 if (current > 0){
                     current--;
                     new GetChapterTask().execute();

@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
     @Override
     public void onListFragmentInteraction(Novel novel) {
         Intent intent = new Intent(MainActivity.this,BookDetailActivity.class);
-        intent.putExtra(BookDetailFragment.ARG_ITEM_ID,novel.getUrl());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("novel",novel);
+        intent.putExtra(BookDetailFragment.ARG_ITEM_ID,bundle);
         startActivity(intent);
     }
 }

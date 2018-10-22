@@ -46,12 +46,10 @@ public class BookDetailActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.detail_image);
 
-        for (int i = 0; i < Constant.NOVELS.size(); i ++){
-            if (Constant.NOVELS.get(i).getUrl().trim().equals(getIntent().getStringExtra(BookDetailFragment.ARG_ITEM_ID))){
-                novel = Constant.NOVELS.get(i);
-                break;
-            }
-        }
+        novel = (Novel) getIntent()
+                .getBundleExtra(BookDetailFragment.ARG_ITEM_ID)
+                .getSerializable("novel");
+
 
         Glide.with(this)
                 .load(novel.getCover())
@@ -63,10 +61,11 @@ public class BookDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String URL = getIntent().getStringExtra(BookDetailFragment.ARG_ITEM_ID);
-                Log.d(TAG, "onClick: " + URL);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("novel",novel);
                 Intent intent = new Intent(BookDetailActivity.this,BookReadActivity.class);
-                intent.putExtra("bookurl",URL);
+                intent.putExtra("novel",bundle);
+                intent.putExtra("booktype","0");
                 startActivity(intent);
 
             }
@@ -81,7 +80,7 @@ public class BookDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
 
-            arguments.putString(BookDetailFragment.ARG_ITEM_ID, getIntent().getStringExtra(BookDetailFragment.ARG_ITEM_ID));
+            arguments.putSerializable(BookDetailFragment.ARG_ITEM_ID,novel);
 
             BookDetailFragment fragment = new BookDetailFragment();
             fragment.setArguments(arguments);

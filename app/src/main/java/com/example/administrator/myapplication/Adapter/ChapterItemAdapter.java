@@ -29,7 +29,7 @@ public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder myHolder, final int i) {
-        myHolder.tv_Chapter.setText("第"+(i+1)+"章 "+chapters.get(i));
+        myHolder.tv_Chapter.setText(chapters.get(i));
         myHolder.tv_Chapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

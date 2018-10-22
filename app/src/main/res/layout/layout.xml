@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/detail_fragment_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="书名："/>
+    <TextView
+        android:id="@+id/detail_fragment_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="作者:"/>
+    <TextView
+        android:id="@+id/detail_fragment_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="连载状态："/>
+    <TextView
+        android:id="@+id/detail_fragment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最近更新："/>
+    <TextView
+        android:id="@+id/detail_fragment_chapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最新章节："/>
+    <TextView
+        android:id="@+id/detail_fragment_introduce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="简介："/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="你好"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我不好"/>
 </LinearLayout>
