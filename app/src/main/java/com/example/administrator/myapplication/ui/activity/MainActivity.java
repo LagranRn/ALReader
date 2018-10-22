@@ -5,12 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.example.administrator.myapplication.Adapter.FragmentAdapter;
 import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
-import com.example.administrator.myapplication.ui.fragment.ItemFragment;
+import com.example.administrator.myapplication.ui.fragment.BookItemFragment;
 import com.example.administrator.myapplication.ui.fragment.BlankFragment;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.bean.Novel;
@@ -21,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements BookItemFragment.OnListFragmentInteractionListener {
 
 
     @BindView(R.id.vp_Container)
@@ -36,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements ItemFragment.OnLi
 
         List<Fragment> mFragments = new ArrayList<>();
 
-        mFragments.add(ItemFragment.newInstance(1));
+        mFragments.add(BookItemFragment.newInstance(1));
         mFragments.add(BlankFragment.newInstance());
 
         FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());

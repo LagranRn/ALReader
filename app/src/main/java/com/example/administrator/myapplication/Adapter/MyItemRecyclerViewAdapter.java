@@ -12,13 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.administrator.myapplication.ui.fragment.BlankFragment;
-import com.example.administrator.myapplication.ui.fragment.ItemFragment.OnListFragmentInteractionListener;
+import com.example.administrator.myapplication.ui.fragment.BookItemFragment.OnListFragmentInteractionListener;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.bean.Novel;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 

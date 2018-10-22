@@ -74,7 +74,6 @@ public class BlankFragment extends Fragment {
         mButton = view.findViewById(R.id.mButtonTest);
         mFileTest = view.findViewById(R.id.blank_btn_fileTest);
 
-        iv = view.findViewById(R.id.blank_iv_test);
         return view;
     }
 
