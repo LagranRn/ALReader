@@ -5,14 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,28 +14,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.net.Uri;
 
-import com.example.administrator.myapplication.bean.Novel;
-import com.example.administrator.myapplication.ui.activity.MainActivity;
 import com.example.administrator.myapplication.ui.viewmodel.BlankViewModel;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.ui.activity.BookReadActivity;
-import com.example.administrator.myapplication.util.BitmapUtil;
 import com.example.administrator.myapplication.util.ConnUtil;
-import com.example.administrator.myapplication.util.MemoryUtil;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class BlankFragment extends Fragment {
 
@@ -70,7 +54,7 @@ public class BlankFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.blank_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_blank, container, false);
         mButton = view.findViewById(R.id.mButtonTest);
         mFileTest = view.findViewById(R.id.blank_btn_fileTest);
 

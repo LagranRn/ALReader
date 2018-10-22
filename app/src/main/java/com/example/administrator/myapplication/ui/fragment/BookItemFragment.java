@@ -58,7 +58,7 @@ public class BookItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.book_item_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_book_list, container, false);
 
         ButterKnife.bind(this,view);
 
