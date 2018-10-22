@@ -30,63 +30,96 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
-public class BookDetailActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+
+public class BookDetailActivity extends AppCompatActivity implements View.OnClickListener {
+
     private static final String TAG = "BookDetailActivity";
-    Bitmap pngBM = null;
-    Novel novel;
+    private Novel novel;
+    private Bundle savedInstanceState;
+
+
+    @BindView(R.id.app_bar)
     AppBarLayout appBarLayout;
+    @BindView(R.id.detail_image)
     ImageView imageView;
+    @BindView(R.id.detail_image_new)
+    ImageView newImageView;
+    @BindView(R.id.detail_fab)
+    FloatingActionButton fab;
+    @BindView(R.id.detail_toolbar)
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        this.savedInstanceState = savedInstanceState;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
-        appBarLayout = findViewById(R.id.app_bar);
 
-        imageView = findViewById(R.id.detail_image);
+        ButterKnife.bind(this);
 
+        initData();
+        initView();
+
+
+    }
+
+    public void initData(){
+        //初始化novel信息
         novel = (Novel) getIntent()
                 .getBundleExtra(BookDetailFragment.ARG_ITEM_ID)
                 .getSerializable("novel");
-
-
+        //加载背景虚化图片
         Glide.with(this)
                 .load(novel.getCover())
+                .bitmapTransform(new BlurTransformation(this, 15))
                 .into(imageView);
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("novel",novel);
-                Intent intent = new Intent(BookDetailActivity.this,BookReadActivity.class);
-                intent.putExtra("novel",bundle);
-                intent.putExtra("booktype","0");
-                startActivity(intent);
-
-            }
-        });
+        //加载图片
+        Glide.with(this)
+                .load(novel.getCover())
+                .into(newImageView);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-
+        //传值到fragment
         if (savedInstanceState == null) {
+
             Bundle arguments = new Bundle();
-
             arguments.putSerializable(BookDetailFragment.ARG_ITEM_ID,novel);
-
             BookDetailFragment fragment = new BookDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container, fragment)
                     .commit();
+
+        }
+    }
+
+    public void initView(){
+        fab.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.detail_fab:
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("novel",novel);
+                Intent intent = new Intent(BookDetailActivity.this,BookReadActivity.class);
+                intent.putExtra("novel",bundle);
+                intent.putExtra("bookType","0");
+                startActivity(intent);
+                break;
+
         }
     }
 

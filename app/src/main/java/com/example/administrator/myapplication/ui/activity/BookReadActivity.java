@@ -27,8 +27,14 @@ import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
 import com.example.administrator.myapplication.util.BookUtil;
 import com.example.administrator.myapplication.util.SpiderUtil;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,26 +45,25 @@ import cn.xfangfang.paperviewlibrary.PaperView;
 public class BookReadActivity extends AppCompatActivity {
 
     private static final String TAG = "BookReadActivity";
+
     SharedPreferences.Editor stateEditer;
     SharedPreferences stateReader;
 
-    BookUtil bk;
-    int current = 0;
-
-    String url;
+    int current = 0;// 当前所在章节
     String bookType = "1"; //0,在线；1本地
-    List<Directory> directories = new ArrayList<>();
+    int textSize = 18; //14
+    int textLine = 21;
 
-    Chapter chapter = new Chapter();
+    List<Directory> directories = new ArrayList<>();
+    ArrayList<Chapter> chapterList = new ArrayList<>();
+    List<String> chapterNames = new ArrayList<>();
+
+
     Animation menuShowAnim;
     Animation menuHideAnim;
 
-    String titleName;
-    String content;
-    String titleUrl;
-
-    Novel novel;
-
+    Novel novel = new Novel();
+    URL book ;
     @BindView(R.id.read_pv)
     PaperView pv;
     @BindView(R.id.read_progressBar)
@@ -83,40 +88,44 @@ public class BookReadActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
 
-        novel = (Novel) getIntent()
-                .getBundleExtra("novel")
-                .getSerializable("novel");
-        bookType = getIntent()
-                .getStringExtra("booktype");
-        Log.d(TAG, "onCreate: 书名"+novel.getName());
-        Log.d(TAG, "onCreate: 读书类型" + bookType);
+        initView();
         initData();
-        new GetBookTask().execute();
-        Log.d(TAG, "onCreate: " + url);
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
     }
 
-    public void initData(){
+    public void initView(){
 
         menuHideAnim = AnimationUtils.loadAnimation(this, R.anim.menu_hide);
         menuShowAnim = AnimationUtils.loadAnimation(this, R.anim.menu_show);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
     }
+    public void initData(){
 
-    class GetOnlineTasl extends AsyncTask<Void,Void,Boolean>{
-        @Override
-        protected Boolean doInBackground(Void... voids) {
+        bookType = getIntent()
+                .getStringExtra("bookType");
 
-            return true;
+        if (bookType.equals("1")){
+            String bookUrl = getIntent()
+                    .getStringExtra("bookUrl");
+            try {
+                book = new URL(bookUrl);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+
+            novel = (Novel) getIntent()
+                    .getBundleExtra("novel")
+                    .getSerializable("novel");
         }
 
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-
-        }
+        new GetBookTask().execute();
     }
+
+
+
 
     class GetBookTask extends AsyncTask<String,Void,Boolean> {
 
@@ -131,35 +140,26 @@ public class BookReadActivity extends AppCompatActivity {
 
                 case "0":
                     directories = SpiderUtil.getDirectory(novel.getUrl());
-
-
                     break;
-
                 case "1":
+                    Log.d(TAG, "doInBackground: 获取到url");
+                    BookUtil bk = new BookUtil(getIntent()
+                            .getStringExtra("bookUrl"));
+                    chapterNames = bk.getChapterNames();
+                    chapterList = bk.getChapterList();
 
-                    try {
+                    Log.d(TAG, "doInBackground: chapterNames" + chapterNames.size());
+                    Log.d(TAG, "doInBackground: chapterList" + chapterList.size());
 
-                        bk = new BookUtil(new InputStreamReader(getAssets().open("test.txt")));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     break;
                     default:
-
             }
-
-
-
             return true;
         }
 
         @Override
         protected void onPostExecute(Boolean b) {
-
-
-
             pb.setVisibility(View.GONE);
-
             pv.setOnPageStateListener(new PaperView.onPageStateLinstener() {
                 @Override
                 public boolean getNextChapter() {
@@ -217,21 +217,15 @@ public class BookReadActivity extends AppCompatActivity {
                 }
             });
 
-
-
-            List<String> chapterNames = new ArrayList<>();
-            titleUrl = directories.get(current).getUrl();
-            titleName = directories.get(current).getTitle();
             switch (bookType) {
                 case "0":
-                    new GetChapterTask().execute(titleUrl);
+                    new GetChapterTask().execute(directories.get(current).getUrl());
                     for (int i = 0; i < directories.size(); i ++){
                         chapterNames.add(directories.get(i).getTitle());
                     }
                     break;
                 case "1":
                     new GetChapterTask().execute("offline");
-                    chapterNames = bk.getChapterNames();
                     break;
                     default:
             }
@@ -246,9 +240,8 @@ public class BookReadActivity extends AppCompatActivity {
                 public void onItemClick(int chapterIndex) {
                     switch (bookType) {
                         case "0":
-                            titleUrl = directories.get(chapterIndex).getUrl();
                             current = chapterIndex;
-                            new GetChapterTask().execute(titleUrl);
+                            new GetChapterTask().execute(directories.get(chapterIndex).getUrl());
                             break;
                         case "1":
                             current = chapterIndex;
@@ -258,20 +251,15 @@ public class BookReadActivity extends AppCompatActivity {
                     }
 
                     mDrawerLayout.closeDrawer(Gravity.START);
-                    // TODO 添加 处理事件
-                    Log.d(TAG, "onItemClick: fff");
                 }
 
                 @Override
                 public void onItemLongClick(int chapterIndex) {
-                    // TODO 添加 处理事件
-                    Log.d(TAG, "onItemLongClick: fff");
+                    Log.d(TAG, "onItemLongClick: 长按");
                 }
             });
             recyslerview.setAdapter(adapter);
-
         }
-
     }
 
     class GetChapterTask extends AsyncTask<String, Void, Chapter>{
@@ -287,12 +275,13 @@ public class BookReadActivity extends AppCompatActivity {
         protected Chapter doInBackground(String... strings) {
             switch (bookType){
                 case "0":
-                    content = SpiderUtil.getChapterContent(titleUrl);
                     chapter.setName(directories.get(current).getTitle());
-                    chapter.setContent(content);
+                    chapter.setContent(SpiderUtil.getChapterContent(strings[0]));
                     break;
                 case "1":
-                    chapter = bk.getChapter(current);
+                    novel.setName("kgg");
+                    Log.d(TAG, "doInBackground: " + chapterList.size());
+                    chapter = chapterList.get(current);
                     break;
                     default:
             }
@@ -303,53 +292,87 @@ public class BookReadActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Chapter s) {
-            pv.setChapterName(novel.getName());
+
             pv.setExtraInfo(s.getName());
-//            pv.setBackgroundColor(0xC8E6C9);
+            pv.setText(s.getContent());
+            pv.setChapterName(novel.getName());
+
+            pv.setTextLine(textLine);
+            pv.setTextSize(textSize);
+
             pv.setContentTextColor("#002505");
             pv.setInfoTextColor("#8a000000");
-            pv.setText(s.getContent());
-            pv.setTextLine(17);
-            pv.setTextSize(17);
 
             pb.setVisibility(View.GONE);
 
         }
     }
     public void incTextSize(View view){
-    }
-    public void decTextSize(View view){
+        if (textSize  <  22){
+            textSize ++;
+            textSize ++;
+            textLine --;
+            textLine --;
+            new GetChapterTask().execute(directories.get(current).getUrl());
+
+        } else {
+            Snackbar.make(pv,"到最大了",Snackbar.LENGTH_SHORT).show();
+
+        }
 
     }
+    public void decTextSize(View view){
+        if (textSize > 14){
+            textSize --;
+            textSize --;
+            textLine ++;
+            textLine ++;
+            new GetChapterTask().execute(directories.get(current).getUrl());
+        } else {
+            Snackbar.make(pv,"到最小了",Snackbar.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+
     public void nextChapter(View view){
+        nextC();
+    }
+    public void lastChapter(View view){
+        lastC();
+    }
+
+    public void nextC(){
         switch (bookType){
             case "0":
-                if (current < directories.size()){
+                if (current < directories.size() - 1){
                     current++;
-                    titleUrl = directories.get(current).getUrl();
-                    new GetChapterTask().execute(titleUrl);
+                    new GetChapterTask().execute(directories.get(current).getUrl());
+                } else {
+                    Snackbar.make(pv,"走远了",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case "1":
-                if (current < bk.getChapterCount()){
+                if (current < chapterList.size() - 1){
                     current++;
                     new GetChapterTask().execute();
                 } else {
                     Snackbar.make(pv,"走远了",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
-                default:
+            default:
         }
 
     }
-    public void lastChapter(View view){
-        Log.d(TAG, "lastChapter: 点击");
+    public void lastC(){
         switch (bookType){
             case "0":
                 if (current > 0){
                     current--;
-                    titleUrl = directories.get(current).getUrl();
-                    new GetChapterTask().execute(titleUrl);
+                    new GetChapterTask().execute(directories.get(current).getUrl());
+                } else {
+                    Snackbar.make(pv,"没了",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case "1":

@@ -21,7 +21,7 @@ public class BookUtil {
 
     private BookUtil() {
         chapterList = new ArrayList<>();
-        chapterName = new ArrayList<String>();
+        chapterName = new ArrayList<>();
     }
 
     /*
@@ -68,8 +68,13 @@ public class BookUtil {
     /*
      * 获取所有章节
      */
+
     public List<String> getChapterNames() {
         return chapterName;
+    }
+
+    public ArrayList<Chapter> getChapterList() {
+        return chapterList;
     }
 
     private void handleBook(InputStreamReader isr) {
@@ -94,8 +99,8 @@ public class BookUtil {
                     } else if (!sb.toString().trim().equals("")) {
                         // 是第一章且序言不是一些空字符
                         newChapter.setContent(sb.toString());
-                        newChapter.setName("preface");
-                        chapterName.add("preface");
+                        newChapter.setName("序");
+                        chapterName.add("序");
                         sb.delete(0, sb.length());
                         chapterList.add(newChapter);
                         newChapter = new Chapter();

@@ -22,15 +22,19 @@ import com.example.administrator.myapplication.util.SpiderUtil;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ItemFragment extends Fragment {
     private static final String TAG = "ItemFragment";
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    @BindView(R.id.list)
     RecyclerView recyclerView;
+    @BindView(R.id.item_progressBar)
     ProgressBar progressBar;
-
 
     public ItemFragment() {
     }
@@ -57,23 +61,17 @@ public class ItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.book_item_list, container, false);
-        Log.d(TAG, "onCreateView: 1");
-        // Set the adapter
 
-        recyclerView = view.findViewById(R.id.list);
-        progressBar = view.findViewById(R.id.item_progressBar);
+        ButterKnife.bind(this,view);
 
-            Log.d(TAG, "onCreateView: 2");
             Context context = view.getContext();
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            Log.d(TAG, "onCreateView: " + "加载书");
             new NovelAsyncTask().execute();
 
-        Log.d(TAG, "onCreateView: 3");
         return view;
     }
 

@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class BookDetailFragment extends Fragment {
@@ -34,11 +35,17 @@ public class BookDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "3";
 
     private Novel novel;
+    @BindView(R.id.detail_fragment_author)
     TextView author;
+    @BindView(R.id.detail_fragment_introduce)
     TextView introduce;
+    @BindView(R.id.detail_fragment_state)
     TextView statement;
+    @BindView(R.id.detail_fragment_time)
     TextView time;
+    @BindView(R.id.detail_fragment_chapter)
     TextView chapter;
+    @BindView(R.id.detail_fragment_name)
     TextView bookname;
 
     public BookDetailFragment() {
@@ -55,6 +62,7 @@ public class BookDetailFragment extends Fragment {
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
+                Log.d(TAG, "onCreate: 书名子" + novel.getName());
                 appBarLayout.setTitle(novel.getName());
             }
         }
@@ -64,20 +72,15 @@ public class BookDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View  view = inflater.inflate(R.layout.layout,container,false);
-        author = view.findViewById(R.id.detail_fragment_author);
-        introduce = view.findViewById(R.id.detail_fragment_introduce);
-        statement = view.findViewById(R.id.detail_fragment_state);
-        time = view.findViewById(R.id.detail_fragment_time);
-        chapter = view.findViewById(R.id.detail_fragment_chapter);
-        bookname = view.findViewById(R.id.detail_fragment_name);
+        ButterKnife.bind(this,view);
+
         new BookDetailAsync().execute(novel);
+
         return view;
     }
 
     class BookDetailAsync extends AsyncTask<Novel,Void,List>{
-
-
-
+        
         @Override
         protected List doInBackground(Novel... novels) {
             String url = novels[0].getUrl();
@@ -87,7 +90,7 @@ public class BookDetailFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List list) {
-            
+
             super.onPostExecute(list);
 
             bookname.append(list.get(0).toString());

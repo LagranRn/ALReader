@@ -9,16 +9,19 @@ import android.widget.Button;
 import com.example.administrator.myapplication.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+
     @BindView(R.id.login_sign_in)
-    Button SignIn;
+    Button signIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        SignIn.setOnClickListener(this);
+        ButterKnife.bind(this);
+        signIn.setOnClickListener(this);
     }
 
     @Override
@@ -34,5 +37,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void login(){
         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }
