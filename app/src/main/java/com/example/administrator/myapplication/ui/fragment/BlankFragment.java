@@ -36,7 +36,6 @@ public class BlankFragment extends Fragment {
     private BlankViewModel mViewModel;
     private Button mButton;
     private Button mFileTest;
-    private ConnUtil connUtil;
     private static final int FILE_SELECT_CODE = 0;
     private ImageView iv;
 

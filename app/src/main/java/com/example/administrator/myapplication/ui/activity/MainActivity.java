@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.administrator.myapplication.adapter.MyItemRecyclerViewAdapter;
 import com.example.administrator.myapplication.adapter.SectionsPagerAdapter;
 import com.example.administrator.myapplication.bean.Constant;
 import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
@@ -30,7 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements BookItemFragment.OnListFragmentInteractionListener,NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
 
     @BindView(R.id.main_vp_container)
@@ -81,14 +82,7 @@ public class MainActivity extends AppCompatActivity implements BookItemFragment.
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
-    @Override
-    public void onListFragmentInteraction(Novel novel) {
-        Intent intent = new Intent(MainActivity.this,BookDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("novel",novel);
-        intent.putExtra(BookDetailFragment.ARG_ITEM_ID,bundle);
-        startActivity(intent);
-    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

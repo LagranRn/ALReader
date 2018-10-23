@@ -1,5 +1,6 @@
 package com.example.administrator.myapplication.ui.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -47,6 +48,8 @@ public class BookReadActivity extends AppCompatActivity {
     int textSize = 18; //14
     int textLine = 21;
 
+    int chapterState = -1;
+
     List<Directory> directories = new ArrayList<>();
     ArrayList<Chapter> chapterList = new ArrayList<>();
     List<String> chapterNames = new ArrayList<>();
@@ -56,6 +59,7 @@ public class BookReadActivity extends AppCompatActivity {
 
     Novel novel = new Novel();
     URL book ;
+    Intent intent;
 
     @BindView(R.id.read_pv)
     PaperView pv;
@@ -93,38 +97,26 @@ public class BookReadActivity extends AppCompatActivity {
 
     }
     public void initData(){
+        intent = getIntent();
 
-        bookType = getIntent()
-                .getStringExtra("bookType");
+        bookType = intent.getStringExtra("bookType");
 
         if (bookType.equals("1")){
-            String bookUrl = getIntent()
-                    .getStringExtra("bookUrl");
+            String bookUrl = intent.getStringExtra("bookUrl");
             try {
                 book = new URL(bookUrl);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-
         } else {
-
-            novel = (Novel) getIntent()
+            novel = (Novel) intent
                     .getBundleExtra("novel")
                     .getSerializable("novel");
         }
-
         new GetBookTask().execute();
     }
 
-
-
-
     class GetBookTask extends AsyncTask<String,Void,Boolean> {
-
-        @Override
-        protected void onPreExecute() {
-
-        }
 
         @Override
         protected Boolean doInBackground(String... strings) {
@@ -134,14 +126,11 @@ public class BookReadActivity extends AppCompatActivity {
                     directories = SpiderUtil.getDirectory(novel.getUrl());
                     break;
                 case "1":
-                    Log.d(TAG, "doInBackground: 获取到url");
+
                     BookUtil bk = new BookUtil(getIntent()
                             .getStringExtra("bookUrl"));
                     chapterNames = bk.getChapterNames();
                     chapterList = bk.getChapterList();
-
-                    Log.d(TAG, "doInBackground: chapterNames" + chapterNames.size());
-                    Log.d(TAG, "doInBackground: chapterList" + chapterList.size());
 
                     break;
                     default:
@@ -152,28 +141,24 @@ public class BookReadActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean b) {
             pb.setVisibility(View.GONE);
+
             pv.setOnPageStateListener(new PaperView.onPageStateLinstener() {
                 @Override
                 public boolean getNextChapter() {
-                    Log.d(TAG, "getNextChapter: 取下一章节");
-                    return false;
+                    return true;
                 }
 
                 @Override
                 public boolean getPreChapter() {
-
-                    Log.d(TAG, "getPreChapter: 取前一章节");
-                    return false;
+                    return true;
                 }
 
                 @Override
                 public void isStartPoint() {
-                    Log.d(TAG, "isStartPoint: 进入第一页时间");
                 }
 
                 @Override
                 public void isEndPoint() {
-                    Log.d(TAG, "isEndPoint: 到达最后一页时");
                 }
 
                 @Override
@@ -187,27 +172,41 @@ public class BookReadActivity extends AppCompatActivity {
                         rl.startAnimation(menuShowAnim);
                     }
 
-                    Log.d(TAG, "centerClicked: 点击中部时");
                 }
 
                 @Override
                 public void incChapter() {
-                    Log.d(TAG, "incChapter: 增加章节");
+                    //滑动增加章节
+                    chapterState *= -1;
+                    if (chapterState == 1){
+                        nextC();
+                    }
                 }
 
                 @Override
                 public void decChapter() {
-                    Log.d(TAG, "decChapter: 减少章节");
+                    //滑动减少章节
+                    chapterState *= -1;
+                    if (chapterState == 1){
+                        lastC();
+                    }
                 }
 
                 @Override
                 public void onEveryPageLoad(int currentPage, int wholePage) {
-                    if (currentPage == wholePage){
-
-                    }
-                    Log.d(TAG, "onEveryPageLoad: 加载页面时" + currentPage);
+                    /*if (rl.isShown()){
+                        rl.setVisibility(View.INVISIBLE);
+                        rl.startAnimation(menuHideAnim);
+                    }*/
+                    Log.d(TAG, "onEveryPageLoad: 当前页面" + currentPage);
                 }
             });
+
+            initClickView();
+
+        }
+
+        private void initClickView(){
 
             switch (bookType) {
                 case "0":
@@ -219,12 +218,12 @@ public class BookReadActivity extends AppCompatActivity {
                 case "1":
                     new GetChapterTask().execute("offline");
                     break;
-                    default:
+                default:
             }
 
+            RecyclerView recyclerView = findViewById(R.id.read_category);
 
-            RecyclerView recyslerview = (RecyclerView) findViewById(R.id.rv_read_category);
-            recyslerview.setLayoutManager(new LinearLayoutManager(new BookReadActivity()));
+            recyclerView.setLayoutManager(new LinearLayoutManager(new BookReadActivity()));
             ChapterItemAdapter adapter = new ChapterItemAdapter(chapterNames);
 
             adapter.setClickListener(new ChapterItemAdapter.IChapterItemAdapterListener() {
@@ -239,7 +238,7 @@ public class BookReadActivity extends AppCompatActivity {
                             current = chapterIndex;
                             new GetChapterTask().execute();
                             break;
-                            default:
+                        default:
                     }
 
                     mDrawerLayout.closeDrawer(Gravity.START);
@@ -250,7 +249,8 @@ public class BookReadActivity extends AppCompatActivity {
                     Log.d(TAG, "onItemLongClick: 长按");
                 }
             });
-            recyslerview.setAdapter(adapter);
+            recyclerView.setAdapter(adapter);
+
         }
     }
 
@@ -272,7 +272,6 @@ public class BookReadActivity extends AppCompatActivity {
                     break;
                 case "1":
                     novel.setName("kgg");
-                    Log.d(TAG, "doInBackground: " + chapterList.size());
                     chapter = chapterList.get(current);
                     break;
                     default:
@@ -308,7 +307,7 @@ public class BookReadActivity extends AppCompatActivity {
             new GetChapterTask().execute(directories.get(current).getUrl());
 
         } else {
-            Snackbar.make(pv,"到最大了",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(pv,"再打就装不下了~",Snackbar.LENGTH_SHORT).show();
 
         }
 
@@ -321,7 +320,7 @@ public class BookReadActivity extends AppCompatActivity {
             textLine ++;
             new GetChapterTask().execute(directories.get(current).getUrl());
         } else {
-            Snackbar.make(pv,"到最小了",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(pv,"再小就看不见了~",Snackbar.LENGTH_SHORT).show();
 
         }
 
@@ -342,7 +341,7 @@ public class BookReadActivity extends AppCompatActivity {
                     current++;
                     new GetChapterTask().execute(directories.get(current).getUrl());
                 } else {
-                    Snackbar.make(pv,"走远了",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(pv,"欢迎来到世界的尽头~",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case "1":
@@ -350,7 +349,7 @@ public class BookReadActivity extends AppCompatActivity {
                     current++;
                     new GetChapterTask().execute();
                 } else {
-                    Snackbar.make(pv,"走远了",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(pv,"欢迎来到世界的尽头~",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -364,7 +363,7 @@ public class BookReadActivity extends AppCompatActivity {
                     current--;
                     new GetChapterTask().execute(directories.get(current).getUrl());
                 } else {
-                    Snackbar.make(pv,"没了",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(pv,"欢迎来到世界的起点~",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case "1":
@@ -372,7 +371,7 @@ public class BookReadActivity extends AppCompatActivity {
                     current--;
                     new GetChapterTask().execute();
                 } else {
-                    Snackbar.make(pv,"没了",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(pv,"欢迎来到世界的起点~",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             default:

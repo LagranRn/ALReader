@@ -1,6 +1,7 @@
 package com.example.administrator.myapplication.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import android.widget.ProgressBar;
 import com.example.administrator.myapplication.adapter.MyItemRecyclerViewAdapter;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.bean.Novel;
+import com.example.administrator.myapplication.ui.activity.BookDetailActivity;
+import com.example.administrator.myapplication.ui.activity.MainActivity;
 import com.example.administrator.myapplication.util.SpiderUtil;
 
 import java.util.List;
@@ -27,11 +30,8 @@ public class BookItemFragment extends Fragment{
 
     private static final String TAG = "BookItemFragment";
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private static final int mColumnCount = 1;
 
-    private OnListFragmentInteractionListener mListener;
     private String mUrl;
-
 
     @BindView(R.id.book_item_list)
     RecyclerView recyclerView;
@@ -63,16 +63,9 @@ public class BookItemFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_list, container, false);
-
         ButterKnife.bind(this,view);
 
-            Context context = view.getContext();
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-             new NovelAsyncTask().execute(mUrl);
+        new NovelAsyncTask().execute(mUrl);
 
         return view;
     }
@@ -81,18 +74,11 @@ public class BookItemFragment extends Fragment{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
 
@@ -107,13 +93,22 @@ public class BookItemFragment extends Fragment{
         protected void onPostExecute(List<Novel> novels) {
             super.onPostExecute(novels);
             Log.d(TAG, "onPostExecute: " + novels.size());
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(novels, mListener));
             progressBar.setVisibility(View.INVISIBLE);
+            MyItemRecyclerViewAdapter adapter = new MyItemRecyclerViewAdapter(novels);
 
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            adapter.setClickListener(new MyItemRecyclerViewAdapter.OnListFragmentInteractionListener() {
+                @Override
+                public void onListFragmentInteraction(Novel novel) {
+                    Intent intent = new Intent(getContext(),BookDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("novel",novel);
+                    intent.putExtra(BookDetailFragment.ARG_ITEM_ID,bundle);
+                    startActivity(intent);
+                }
+            });
         }
-    }
-
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(Novel novel);
     }
 }

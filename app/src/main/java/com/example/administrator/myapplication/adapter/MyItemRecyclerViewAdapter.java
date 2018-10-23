@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.administrator.myapplication.ui.fragment.BookItemFragment.OnListFragmentInteractionListener;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.bean.Novel;
 
@@ -25,12 +24,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     private static final String TAG = "MyItemRecyclerViewAdapt";
 
     private final List<Novel> mNovels;
-    private final OnListFragmentInteractionListener mListener;
+    private OnListFragmentInteractionListener mListener;
 
 
-    public MyItemRecyclerViewAdapter(List<Novel> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<Novel> items) {
         mNovels = items;
-        mListener = listener;
     }
 
     @NonNull
@@ -63,6 +61,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         });
     }
 
+    public void setClickListener(OnListFragmentInteractionListener listener){
+
+        mListener = listener;
+    }
+
     @Override
     public int getItemCount() {
         return mNovels.size();
@@ -87,5 +90,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         }
     }
 
-    
+    public interface OnListFragmentInteractionListener {
+        void onListFragmentInteraction(Novel novel);
+    }
 }
