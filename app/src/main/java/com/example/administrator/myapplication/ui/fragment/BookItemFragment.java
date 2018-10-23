@@ -25,35 +25,26 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BookItemFragment extends Fragment implements View.OnClickListener {
+public class BookItemFragment extends Fragment{
     private static final String TAG = "BookItemFragment";
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    private String mUrl;
     @BindView(R.id.list)
     RecyclerView recyclerView;
     @BindView(R.id.item_progressBar)
     ProgressBar progressBar;
-    @BindView(R.id.list_china)
-    TextView china;
-    @BindView(R.id.list_city)
-    TextView city;
-    @BindView(R.id.list_fantacy)
-    TextView fantacy;
-    @BindView(R.id.list_history)
-    TextView history;
-    @BindView(R.id.list_onlineGame)
-    TextView onlineGame;
 
     public BookItemFragment() {
     }
 
 
-    public static BookItemFragment newInstance(int columnCount) {
+    public static BookItemFragment newInstance(String url) {
         BookItemFragment fragment = new BookItemFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putString(ARG_COLUMN_COUNT, url);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,7 +54,7 @@ public class BookItemFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mUrl = getArguments().getString(ARG_COLUMN_COUNT);
         }
     }
 
@@ -80,12 +71,7 @@ public class BookItemFragment extends Fragment implements View.OnClickListener {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-             new NovelAsyncTask().execute(Constant.CHINA_URL);
-            china.setOnClickListener(this);
-            fantacy.setOnClickListener(this);
-            city.setOnClickListener(this);
-            history.setOnClickListener(this);
-            onlineGame.setOnClickListener(this);
+             new NovelAsyncTask().execute(mUrl);
 
         return view;
     }
@@ -108,30 +94,6 @@ public class BookItemFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    @Override
-    public void onClick(View v) {
-        progressBar.setVisibility(View.VISIBLE);
-        switch (v.getId()){
-            case R.id.list_china:
-                Log.d(TAG, "onClick: china" );
-                new NovelAsyncTask().execute(Constant.CHINA_URL);
-                break;
-            case R.id.list_city:
-                Log.d(TAG, "onClick: city");
-                new NovelAsyncTask().execute(Constant.CITY_URL);
-                break;
-            case R.id.list_fantacy:
-                Log.d(TAG, "onClick: fantacy");
-                new NovelAsyncTask().execute(Constant.FANTACY_URL);
-                break;
-            case R.id.list_history:
-                new NovelAsyncTask().execute(Constant.HISTORY_URL);
-                break;
-            case R.id.list_onlineGame:
-                new NovelAsyncTask().execute(Constant.ONLINEGAME_URL);
-                break;
-        }
-    }
 
     public class NovelAsyncTask extends AsyncTask<String,Void,List<Novel>>{
 

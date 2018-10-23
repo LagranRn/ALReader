@@ -5,4 +5,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="tab_text_1">女生</string>
+    <string name="tab_text_2">修真</string>
+    <string name="tab_text_3">都市</string>
+    <string name="tab_text_4">奇幻</string>
+    <string name="tab_text_5">历史</string>
+    <string name="tab_text_6">网游</string>
+    <string name="tab_text_7">科幻</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
