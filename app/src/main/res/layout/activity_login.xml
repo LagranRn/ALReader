@@ -5,27 +5,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/login_background">
-    <ImageView
-        android:layout_marginTop="7dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="20dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/login_icon"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="5dp"
-        tools:context=".ui.loginActivity">
-
+        android:paddingTop="5dp">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -35,10 +24,10 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:id="@+id/email"
+                    android:id="@+id/login_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="账户"
+                    android:hint="@string/account"
                     android:inputType="number"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -50,10 +39,10 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/login_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="密码"
+                    android:hint="@string/password"
                     android:imeActionId="6"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
@@ -64,11 +53,11 @@
 
             <Button
                 android:id="@+id/login_sign_in"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@android:style/Widget.Holo.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="登录"
+                android:text="@string/login"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -77,23 +66,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
             <TextView
-                android:id="@+id/Forget_password"
+                android:id="@+id/login_forget_password"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
-                android:text="忘记密码?"
+                android:text="@string/forget_password"
                 android:textSize="12sp"
                 android:clickable="true"/>
 
             <TextView
-                android:id="@+id/new_user"
+                android:id="@+id/login_register"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginRight="10dp"
                 android:gravity="right"
-                android:text="新用户注册"
-                android:textSize="12sp"
-                android:clickable="true"/>
+                android:text="@string/register"
+                android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -107,15 +95,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="登录即代表阅读并同意"
+            android:text="@string/agree_with_service"
             android:textColor="#fff"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#6be7df"
-            android:text="服务条款"
-            android:id="@+id/service"
-            android:clickable="true"/>
+            android:text="@string/service_item"
+            android:id="@+id/service"/>
     </LinearLayout>
+
 </LinearLayout>
 

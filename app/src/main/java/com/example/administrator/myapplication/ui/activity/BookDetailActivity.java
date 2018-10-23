@@ -3,6 +3,7 @@ package com.example.administrator.myapplication.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,9 +28,6 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
     private Novel novel;
     private Bundle savedInstanceState;
 
-
-    @BindView(R.id.app_bar)
-    AppBarLayout appBarLayout;
     @BindView(R.id.detail_image)
     ImageView imageView;
     @BindView(R.id.detail_image_new)
@@ -38,6 +36,8 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
     FloatingActionButton fab;
     @BindView(R.id.detail_toolbar)
     Toolbar toolbar;
+    @BindView(R.id.detail_toolbar_layout)
+    CollapsingToolbarLayout appBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,8 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        appBarLayout.setTitle(novel.getName());
 
         //传值到fragment
         if (savedInstanceState == null) {

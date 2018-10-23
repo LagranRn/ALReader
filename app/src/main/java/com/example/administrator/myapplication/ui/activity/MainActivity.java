@@ -5,8 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.administrator.myapplication.adapter.SectionsPagerAdapter;
 import com.example.administrator.myapplication.bean.Constant;
 import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
 import com.example.administrator.myapplication.ui.fragment.BookItemFragment;
@@ -32,45 +33,52 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements BookItemFragment.OnListFragmentInteractionListener,NavigationView.OnNavigationItemSelectedListener{
 
 
-    @BindView(R.id.vp_Container)
+    @BindView(R.id.main_vp_container)
     ViewPager mViewPager;
-    @BindView(R.id.drawer_main)
+    @BindView(R.id.main_drawer)
     DrawerLayout drawerLayout;
-    @BindView(R.id.nav_main)
+    @BindView(R.id.main_nav)
     NavigationView navigationView;
-    @BindView(R.id.toolbar_main)
+    @BindView(R.id.main_toolbar)
     Toolbar toolbar;
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    @BindView(R.id.main_tabLayout)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         this.getExternalFilesDir(null);
+
+        initView();
+        initData();
+
+    }
+
+    public void initView(){
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(BookItemFragment.newInstance(Constant.GIRL_URL));
-        fragments.add(BookItemFragment.newInstance(Constant.CHINA_URL));
-        fragments.add(BookItemFragment.newInstance(Constant.CITY_URL));
-        fragments.add(BookItemFragment.newInstance(Constant.FANTACY_URL));
-        fragments.add(BookItemFragment.newInstance(Constant.HISTORY_URL));
-        fragments.add(BookItemFragment.newInstance(Constant.ONLINEGAME_URL));
-        fragments.add(BookItemFragment.newInstance(Constant.SCIENCE_URL));
-        mSectionsPagerAdapter.setFragments(fragments);
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.vp_Container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs1);
-
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+    }
+
+    public void initData(){
+
+        List<Fragment> fragments = new ArrayList<>();
+        for (int i = 0; i < Constant.BOOKURLS.size(); i ++){
+            fragments.add(BookItemFragment.newInstance(Constant.BOOKURLS.get(i)));
+        }
+
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter.setFragments(fragments);
+
+        mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
     @Override
@@ -108,33 +116,8 @@ public class MainActivity extends AppCompatActivity implements BookItemFragment.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.about:
-                Toast.makeText(this, "nonon", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
         }
         return true;
-    }
-
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-        List<Fragment> fragments = new ArrayList<>();
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        public void setFragments(List<Fragment> fragments) {
-            this.fragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-//            return PlaceholderFragment.newInstance(position + 1);
-            return fragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return fragments.size();
-        }
     }
 }

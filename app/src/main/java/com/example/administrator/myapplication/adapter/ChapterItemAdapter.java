@@ -1,4 +1,4 @@
-package com.example.administrator.myapplication.Adapter;
+package com.example.administrator.myapplication.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,20 +11,23 @@ import com.example.administrator.myapplication.R;
 
 import java.util.List;
 
-public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter.MyHolder> {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter.MyHolder> {
+    private static final String TAG = "ChapterItemAdapter";
     private  List<String> chapters;
+    private IChapterItemAdapterListener mListener;
+
     public ChapterItemAdapter(List<String> chapters) {
         this.chapters = chapters;
     }
-    IChapterItemAdapterListener mListener;
 
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chapter,viewGroup,false);
-        MyHolder myHolder = new MyHolder(view);
-        return myHolder;
+        return new MyHolder(view);
     }
 
     @Override
@@ -56,11 +59,12 @@ public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter
     }
 
     class MyHolder extends RecyclerView.ViewHolder{
-        public TextView tv_Chapter;
+        @BindView(R.id.category_tv_chapter)
+        TextView tv_Chapter;
 
-        public MyHolder(@NonNull View itemView) {
+        MyHolder(@NonNull View itemView) {
             super(itemView);
-            tv_Chapter = (TextView) itemView.findViewById(R.id.category_tv_chapter);
+            ButterKnife.bind(this,itemView);
         }
 
     }
@@ -69,7 +73,6 @@ public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter
 
         //传入章节索引
         void onItemClick(int chapterIndex);
-
         void onItemLongClick(int chapterIndex);
 
     }

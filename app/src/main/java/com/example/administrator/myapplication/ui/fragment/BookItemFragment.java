@@ -12,11 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.example.administrator.myapplication.Adapter.MyItemRecyclerViewAdapter;
+import com.example.administrator.myapplication.adapter.MyItemRecyclerViewAdapter;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.bean.Constant;
 import com.example.administrator.myapplication.bean.Novel;
 import com.example.administrator.myapplication.util.SpiderUtil;
 
@@ -26,15 +24,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BookItemFragment extends Fragment{
+
     private static final String TAG = "BookItemFragment";
     private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
+    private static final int mColumnCount = 1;
 
+    private OnListFragmentInteractionListener mListener;
     private String mUrl;
-    @BindView(R.id.list)
+
+
+    @BindView(R.id.book_item_list)
     RecyclerView recyclerView;
-    @BindView(R.id.item_progressBar)
+    @BindView(R.id.book_item_progressBar)
     ProgressBar progressBar;
 
     public BookItemFragment() {
@@ -95,7 +96,7 @@ public class BookItemFragment extends Fragment{
     }
 
 
-    public class NovelAsyncTask extends AsyncTask<String,Void,List<Novel>>{
+    class NovelAsyncTask extends AsyncTask<String,Void,List<Novel>>{
 
         @Override
         protected List<Novel> doInBackground(String... strings) {

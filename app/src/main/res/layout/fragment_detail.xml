@@ -12,41 +12,40 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:textStyle="bold"
-        android:text="书名："/>
+        android:text="@string/book_name"/>
     <TextView
         android:id="@+id/detail_fragment_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:textStyle="bold"
-        android:text="作者:"/>
+        android:text="@string/book_author"/>
     <TextView
         android:id="@+id/detail_fragment_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:textStyle="bold"
-        android:text="连载状态："/>
+        android:text="@string/book_state"/>
     <TextView
         android:id="@+id/detail_fragment_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:textStyle="bold"
-        android:text="最近更新："/>
+        android:text="@string/book_latest_fresh"/>
     <TextView
         android:id="@+id/detail_fragment_chapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:textStyle="bold"
-        android:text="最新章节："/>
+        android:text="@string/book_latest_chapter"/>
     <TextView
         android:id="@+id/detail_fragment_introduce"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:textStyle="bold"
-        android:text="简介："/>
-
+        android:text="@string/book_introduce"/>
 </LinearLayout>

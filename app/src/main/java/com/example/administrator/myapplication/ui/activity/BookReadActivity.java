@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.administrator.myapplication.Adapter.ChapterItemAdapter;
+import com.example.administrator.myapplication.adapter.ChapterItemAdapter;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.bean.Chapter;
 import com.example.administrator.myapplication.bean.Directory;
@@ -51,12 +51,12 @@ public class BookReadActivity extends AppCompatActivity {
     ArrayList<Chapter> chapterList = new ArrayList<>();
     List<String> chapterNames = new ArrayList<>();
 
-
     Animation menuShowAnim;
     Animation menuHideAnim;
 
     Novel novel = new Novel();
     URL book ;
+
     @BindView(R.id.read_pv)
     PaperView pv;
     @BindView(R.id.read_progressBar)
@@ -71,7 +71,6 @@ public class BookReadActivity extends AppCompatActivity {
     TextView category;
     @BindView(R.id.read_dl_slide)
     DrawerLayout mDrawerLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

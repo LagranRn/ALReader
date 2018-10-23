@@ -31,10 +31,12 @@ import butterknife.ButterKnife;
 
 
 public class BookDetailFragment extends Fragment {
-    private static final String TAG = "BookDetailFragment";
-    public static final String ARG_ITEM_ID = "3";
 
+    private static final String TAG = "BookDetailFragment";
+
+    public static final String ARG_ITEM_ID = "3";
     private Novel novel;
+
     @BindView(R.id.detail_fragment_author)
     TextView author;
     @BindView(R.id.detail_fragment_introduce)
@@ -46,7 +48,7 @@ public class BookDetailFragment extends Fragment {
     @BindView(R.id.detail_fragment_chapter)
     TextView chapter;
     @BindView(R.id.detail_fragment_name)
-    TextView bookname;
+    TextView bookName;
 
     public BookDetailFragment() {
     }
@@ -59,12 +61,6 @@ public class BookDetailFragment extends Fragment {
 
             novel = (Novel) getArguments().getSerializable(ARG_ITEM_ID);
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                Log.d(TAG, "onCreate: 书名子" + novel.getName());
-                appBarLayout.setTitle(novel.getName());
-            }
         }
     }
 
@@ -90,17 +86,14 @@ public class BookDetailFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List list) {
-
             super.onPostExecute(list);
 
-            bookname.append(list.get(0).toString());
+            bookName.append(list.get(0).toString());
             introduce.append(list.get(1).toString());
             author.append(list.get(3).toString());
             statement.append(list.get(4).toString());
             time.append(list.get(5).toString());
             chapter.append(list.get(6).toString());
-
         }
     }
-
 }

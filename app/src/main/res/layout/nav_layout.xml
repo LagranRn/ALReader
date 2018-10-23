@@ -4,27 +4,28 @@
     android:layout_height="180dp"
     android:padding="10dp"
     android:background="@color/colorPrimary">
+
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/icon_image"
+        android:id="@+id/nav_icon_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/trump"
         android:layout_centerInParent="true"/>
     <TextView
-        android:id="@+id/mail"
+        android:id="@+id/nav_mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:textColor="#fff"
         android:textSize="14sp"
-        android:text="DonaldTrump@qq.com"/>
+        android:text="@string/nav_mail"/>
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/nav_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/mail"
+        android:layout_above="@id/nav_mail"
         android:textSize="14sp"
         android:textColor="#fff"
-        android:text="Donald Trump"
-        />
+        android:text="@string/nav_name" />
+
 </RelativeLayout>

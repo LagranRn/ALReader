@@ -9,38 +9,37 @@
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+        android:id="@+id/detail_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+            android:id="@+id/detail_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/detail_image"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/test2"
-                android:layout_height="300dp" />
+                android:src="@drawable/wu_kong_bg"
+                android:layout_height="200dp" />
             <ImageView
-                android:layout_width="180dp"
-                android:layout_height="240dp"
+                android:layout_width="120dp"
+                android:layout_height="160dp"
                 android:layout_gravity="center"
                 android:id="@+id/detail_image_new"
                 android:scaleType="centerCrop"
-                android:src="@drawable/test2"
+                android:src="@drawable/wu_kong"
                 />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="40dp"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
