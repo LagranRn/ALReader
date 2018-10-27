@@ -157,6 +157,7 @@ public class BlankFragment extends Fragment {
         }
 
     }
+
     public String getRealPathFromURI(Uri contentUri) {
         String res = null;
         String[] proj = { MediaStore.Images.Media.DATA };

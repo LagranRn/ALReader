@@ -28,12 +28,22 @@ public class BookUtil {
     /*
      * 传入书的路径 初始化
      */
-    public BookUtil(String bookUrl) {
+    public BookUtil(String bookUrl,String type) {
         // TODO: 2018/10/22 0022  文字编码判断，如果是汉语用gbk，如果是哈文就用unicode， 其他万物都一样
         this();
+        String charSet = "GBK";
         try {
             InputStreamReader isr = null;
-                isr = new InputStreamReader(new FileInputStream(new File(bookUrl)),"GBK");
+            switch (type){
+                case "0":
+                    charSet = "GBK";
+                    break;
+                case "1":
+                    charSet = "Unicode";
+                    break;
+                    default:
+            }
+                isr = new InputStreamReader(new FileInputStream(new File(bookUrl)),charSet);
 
             handleBook(isr);
 

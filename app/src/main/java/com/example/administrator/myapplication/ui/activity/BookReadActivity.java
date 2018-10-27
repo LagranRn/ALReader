@@ -47,7 +47,7 @@ public class BookReadActivity extends AppCompatActivity {
     String bookType = "1"; //0,在线；1本地
     int textSize = 18; //14
     int textLine = 21;
-
+    String localType = "1";
     int chapterState = -1;
 
     List<Directory> directories = new ArrayList<>();
@@ -103,6 +103,7 @@ public class BookReadActivity extends AppCompatActivity {
 
         if (bookType.equals("1")){
             String bookUrl = intent.getStringExtra("bookUrl");
+            localType = intent.getStringExtra("localType");
             try {
                 book = new URL(bookUrl);
             } catch (MalformedURLException e) {
@@ -128,7 +129,7 @@ public class BookReadActivity extends AppCompatActivity {
                 case "1":
 
                     BookUtil bk = new BookUtil(getIntent()
-                            .getStringExtra("bookUrl"));
+                            .getStringExtra("bookUrl"),localType);
                     chapterNames = bk.getChapterNames();
                     chapterList = bk.getChapterList();
 

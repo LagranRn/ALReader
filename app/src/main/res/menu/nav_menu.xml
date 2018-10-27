@@ -8,14 +8,14 @@
             android:title="我的资料"
             />
         <item
-            android:id="@+id/menu_password"
+            android:id="@+id/menu_localBook"
             android:icon="@drawable/goplarer"
-            android:title="修改密码"
+            android:title="本地图书(汉语)"
             />
         <item
-            android:title="管理数据"
+            android:title="本地图书(其他)"
             android:icon="@drawable/xiage"
-            android:id="@+id/add_date" />
+            android:id="@+id/menu_localBook_else" />
     </group>
 
 </menu>
