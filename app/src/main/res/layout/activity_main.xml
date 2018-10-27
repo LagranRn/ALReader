@@ -17,70 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:background="@color/colorPrimary"></LinearLayout>
-
-        <android.support.design.widget.AppBarLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/main_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/colorPrimary" />
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/main_tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/colorPrimary"
-                app:tabTextColor="@color/white">
-
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_text_1" />
-
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_text_2" />
-
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem41"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_text_3" />
-
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem51"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_text_4" />
-
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem61"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_text_5" />
-
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem71"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_text_6" />
-
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem31"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_text_7" />
-
-            </android.support.design.widget.TabLayout>
-
-        </android.support.design.widget.AppBarLayout>
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            app:titleTextColor="@color/white"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/main_vp_container"
@@ -93,7 +35,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#ebebeb">
-
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

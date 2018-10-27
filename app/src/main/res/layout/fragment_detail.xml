@@ -1,51 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/detail_fragment_name"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/detail_fragment_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/detail_fragment_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/book_name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/detail_fragment_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/book_author"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/detail_fragment_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/book_state"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/detail_fragment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/book_latest_fresh"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/detail_fragment_chapter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/book_latest_chapter"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/detail_fragment_introduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/book_introduce"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/detail_fragment_progressbar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold"
-        android:text="@string/book_name"/>
-    <TextView
-        android:id="@+id/detail_fragment_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold"
-        android:text="@string/book_author"/>
-    <TextView
-        android:id="@+id/detail_fragment_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold"
-        android:text="@string/book_state"/>
-    <TextView
-        android:id="@+id/detail_fragment_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold"
-        android:text="@string/book_latest_fresh"/>
-    <TextView
-        android:id="@+id/detail_fragment_chapter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold"
-        android:text="@string/book_latest_chapter"/>
-    <TextView
-        android:id="@+id/detail_fragment_introduce"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:textStyle="bold"
-        android:text="@string/book_introduce"/>
-</LinearLayout>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="108dp"
+        android:visibility="visible" />
+
+</RelativeLayout>

@@ -5,36 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.activity.BookDetailActivity"
-    tools:ignore="MergeRootFrame">
+    tools:context=".ui.activity.BookDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/detail_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="200dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/detail_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/detail_toolbar">
 
             <ImageView
                 android:id="@+id/detail_image"
                 android:layout_width="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/wu_kong_bg"
-                android:layout_height="200dp" />
+                android:layout_height="match_parent" />
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="160dp"
                 android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/detail_image_new"
-                android:scaleType="centerCrop"
-                android:src="@drawable/wu_kong"
-                />
+                android:scaleType="centerCrop" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/detail_toolbar"

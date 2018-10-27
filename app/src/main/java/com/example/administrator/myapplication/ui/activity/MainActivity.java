@@ -29,6 +29,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.administrator.myapplication.adapter.FragmentAdapter;
 import com.example.administrator.myapplication.adapter.MyItemRecyclerViewAdapter;
 import com.example.administrator.myapplication.adapter.SectionsPagerAdapter;
 import com.example.administrator.myapplication.bean.Constant;
@@ -36,6 +37,7 @@ import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
 import com.example.administrator.myapplication.ui.fragment.BookItemFragment;
 import com.example.administrator.myapplication.R;
 import com.example.administrator.myapplication.bean.Novel;
+import com.example.administrator.myapplication.ui.fragment.MainSearchFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FILE_SELECT_CODE = 0;
     private static final int FILE_READ_CODE = 1;
     private Context context;
+    private String currentType = "1";
 
     @BindView(R.id.main_vp_container)
     ViewPager mViewPager;
@@ -59,10 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     @BindView(R.id.main_toolbar)
     Toolbar toolbar;
-    @BindView(R.id.main_tabLayout)
-    TabLayout tabLayout;
 
-    String currentType = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,33 +73,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         this.getExternalFilesDir(null);
-
-        initView();
-        initData();
-
-    }
-
-    public void initView(){
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        initData();
 
     }
 
     public void initData(){
-
         List<Fragment> fragments = new ArrayList<>();
-        for (int i = 0; i < Constant.BOOKURLS.size(); i ++){
-            fragments.add(BookItemFragment.newInstance(Constant.BOOKURLS.get(i)));
-        }
+        fragments.add(MainSearchFragment.newInstance());
+        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
+        adapter.setmFragment(fragments);
+        mViewPager.setAdapter(adapter);
 
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mSectionsPagerAdapter.setFragments(fragments);
-
-        mViewPager.setAdapter(mSectionsPagerAdapter);
     }
 
 
@@ -188,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //出现其他没有考虑到的情况
                 Log.d(TAG, "onActivityResult: 绝对路径" + getRealPathFromURI(data.getData()));
                 path = getRealPathFromURI(data.getData());
-                Toast.makeText(context, "获取到绝对路径", Toast.LENGTH_SHORT).show();
             }
             Log.d(TAG, "onActivityResult: " + path);
 

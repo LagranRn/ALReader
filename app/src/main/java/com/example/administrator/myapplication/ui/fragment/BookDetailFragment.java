@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.administrator.myapplication.R;
@@ -37,6 +39,11 @@ public class BookDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "3";
     private Novel novel;
 
+
+    @BindView(R.id.detail_fragment_ll)
+    LinearLayout linearLayout;
+    @BindView(R.id.detail_fragment_progressbar)
+    ProgressBar progressBar;
     @BindView(R.id.detail_fragment_author)
     TextView author;
     @BindView(R.id.detail_fragment_introduce)
@@ -49,6 +56,7 @@ public class BookDetailFragment extends Fragment {
     TextView chapter;
     @BindView(R.id.detail_fragment_name)
     TextView bookName;
+
 
     public BookDetailFragment() {
     }
@@ -76,7 +84,12 @@ public class BookDetailFragment extends Fragment {
     }
 
     class BookDetailAsync extends AsyncTask<Novel,Void,List>{
-        
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
         @Override
         protected List doInBackground(Novel... novels) {
             String url = novels[0].getUrl();
@@ -87,6 +100,9 @@ public class BookDetailFragment extends Fragment {
         @Override
         protected void onPostExecute(List list) {
             super.onPostExecute(list);
+
+            progressBar.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.VISIBLE);
 
             bookName.append(list.get(0).toString());
             introduce.append(list.get(1).toString());
