@@ -10,11 +10,19 @@ import com.example.library.BaseAdapter;
 import com.example.library.IEntity;
 
 public class UserBook implements IEntity<UserBook> {
-    String name;
-    String url;
+    private String name;
+    private String url;
 
     public UserBook(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     @Override
@@ -27,7 +35,7 @@ public class UserBook implements IEntity<UserBook> {
         final View view = holder.getRootView();
         ImageView iv = view.findViewById(R.id.item_userbook_iv);
         TextView tv = view.findViewById(R.id.item_userbook_tv);
-        tv.setText(String.valueOf(position));
+        tv.setText(data.getName());
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
