@@ -44,6 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:background="@drawable/button_style"
                 android:text="搜索图书" />
 
             <TextView
@@ -52,6 +53,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:background="@drawable/button_style"
                 android:text="我的图书" />
         </LinearLayout>
 

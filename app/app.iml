@@ -124,6 +124,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: com.zzx:BaseAdapter-2.0.5" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:localbroadcastmanager-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-vector-drawable-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:interpolator-28.0.0" level="project" />
