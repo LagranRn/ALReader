@@ -12,12 +12,14 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,28 +27,23 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.myapplication.adapter.FragmentAdapter;
-import com.example.administrator.myapplication.adapter.MyItemRecyclerViewAdapter;
-import com.example.administrator.myapplication.adapter.SectionsPagerAdapter;
-import com.example.administrator.myapplication.bean.Constant;
-import com.example.administrator.myapplication.ui.fragment.BookDetailFragment;
-import com.example.administrator.myapplication.ui.fragment.BookItemFragment;
 import com.example.administrator.myapplication.R;
-import com.example.administrator.myapplication.bean.Novel;
+import com.example.administrator.myapplication.ui.fragment.MainMyBookFragment;
 import com.example.administrator.myapplication.ui.fragment.MainSearchFragment;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private static final int FILE_SELECT_CODE = 0;
@@ -54,43 +51,82 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Context context;
     private String currentType = "1";
 
-    @BindView(R.id.main_vp_container)
-    ViewPager mViewPager;
     @BindView(R.id.main_drawer)
     DrawerLayout drawerLayout;
     @BindView(R.id.main_nav)
     NavigationView navigationView;
     @BindView(R.id.main_toolbar)
     Toolbar toolbar;
-
+    @BindView(R.id.main_tv_mybook)
+    TextView myBook;
+    @BindView(R.id.main_tv_search)
+    TextView search;
+    @BindView(R.id.main_frameLayout)
+    FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         context = getBaseContext();
+        this.getExternalFilesDir(null);
+
+        initView();
+        initData(0);
+
+    }
+
+    public void initView(){
+        ButterKnife.bind(this);
 
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        this.getExternalFilesDir(null);
-        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
         navigationView.setNavigationItemSelectedListener(this);
+        search.setOnClickListener(this);
+        myBook.setOnClickListener(this);
 
-        initData();
-
-    }
-
-    public void initData(){
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(MainSearchFragment.newInstance());
-        FragmentAdapter adapter = new FragmentAdapter(getSupportFragmentManager());
-        adapter.setmFragment(fragments);
-        mViewPager.setAdapter(adapter);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
 
     }
 
+    public void initData(int type){
 
+        Fragment fragment = new Fragment();
+        switch (type){
+            case 0:
+                fragment = MainSearchFragment.newInstance();
+                break;
+            case 1:
+                fragment = MainMyBookFragment.newInstance();
+                break;
+                default:
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_frameLayout,fragment);
+        transaction.commit();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.main_tv_search:
+                initData(0);
+                break;
+            case R.id.main_tv_mybook:
+                initData(1);
+                break;
+        }
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -118,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 drawerLayout.closeDrawer(Gravity.START);
                 break;
+
                 default:
         }
         return true;
@@ -211,6 +248,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()){
             case R.id.about:
                 Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
+                break;
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                break;
         }
         return true;
     }

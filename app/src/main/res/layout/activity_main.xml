@@ -17,32 +17,37 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:background="@color/colorPrimary"></LinearLayout>
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/colorPrimary"
-            app:titleTextColor="@color/white"/>
+            app:titleTextColor="@color/white" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/main_vp_container"
+        <FrameLayout
+            android:id="@+id/main_frameLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
-        </android.support.v4.view.ViewPager>
+        </FrameLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#ebebeb">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="搜索图书"
-                android:layout_weight="1"
-                android:gravity="center"/>
 
             <TextView
+                android:id="@+id/main_tv_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="搜索图书" />
+
+            <TextView
+                android:id="@+id/main_tv_mybook"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
