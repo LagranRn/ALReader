@@ -86,6 +86,7 @@ public class BookReadActivity extends AppCompatActivity {
 
         initView();
         initData();
+        
 
     }
 
