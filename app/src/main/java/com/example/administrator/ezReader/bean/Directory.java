@@ -1,5 +1,5 @@
 package com.example.administrator.ezReader.bean;
-
+//网络获取的章节
 public class Directory {
     private String title;
     private String url;

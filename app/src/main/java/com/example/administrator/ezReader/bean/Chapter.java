@@ -1,5 +1,5 @@
 package com.example.administrator.ezReader.bean;
-
+//本地图书筛选出来的章节
 public class Chapter {
 
     public String name;  // 章节名字  如果是序言，章节名则为 preface

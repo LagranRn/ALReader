@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.MainMyBookFragment">
+    tools:context="com.example.administrator.ezReader.ui.fragment.MainHaYuBookFragment">
+
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_my_book_fragment_rv"
+        android:id="@+id/main_ha_yu_book_fragment_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

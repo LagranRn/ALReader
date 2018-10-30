@@ -16,7 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:background="@color/colorPrimary"></LinearLayout>
+            android:background="@color/colorPrimary">
+        </LinearLayout>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_toolbar"
@@ -25,13 +26,14 @@
             android:background="@color/colorPrimary"
             app:titleTextColor="@color/white" />
 
-        <FrameLayout
-            android:id="@+id/main_frameLayout"
+        <LinearLayout
+            android:id="@+id/main_linearlayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,8 +47,15 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="@drawable/button_style"
-                android:text="搜索图书" />
-
+                android:text="@string/netBook" />
+            <TextView
+                android:id="@+id/main_tv_hayubook"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/button_style"
+                android:text="@string/HaYuBook" />
             <TextView
                 android:id="@+id/main_tv_mybook"
                 android:layout_width="0dp"
@@ -54,7 +63,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:background="@drawable/button_style"
-                android:text="我的图书" />
+                android:text="@string/myBook" />
         </LinearLayout>
 
 

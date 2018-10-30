@@ -1,7 +1,6 @@
 package com.example.administrator.ezReader.bean;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -9,33 +8,34 @@ import com.example.administrator.ezReader.R;
 import com.example.library.BaseAdapter;
 import com.example.library.IEntity;
 
-public class UserBook implements IEntity<UserBook> {
-    private String name;
-    private String url;
+import java.io.Serializable;
 
-    public UserBook(String name) {
+public class HayuBook implements Serializable,IEntity<HayuBook> {
+    private String id;
+    private String name;
+
+    public HayuBook(String id,String name) {
+        this.id = id;
         this.name = name;
     }
-
     public String getName() {
         return name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getId() {
+        return id;
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.item_userbook;
+        return R.layout.item_hayu_book;
     }
 
     @Override
-    public void bindView(BaseAdapter baseAdapter, BaseAdapter.ViewHolder holder, final UserBook data, final int position) {
+    public void bindView(BaseAdapter baseAdapter, BaseAdapter.ViewHolder holder, final HayuBook data, int position) {
         final View view = holder.getRootView();
-        ImageView iv = view.findViewById(R.id.item_userbook_iv);
-        TextView tv = view.findViewById(R.id.item_userbook_tv);
-        tv.setText(data.getName());
+        TextView textView = view.findViewById(R.id.item_hayu_tv);
+        textView.setText(data.getName());
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -29,7 +29,7 @@ public class MainMyBookFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    @BindView(R.id.main_fragment_rv)
+    @BindView(R.id.main_my_book_fragment_rv)
     RecyclerView recyclerView;
 
 

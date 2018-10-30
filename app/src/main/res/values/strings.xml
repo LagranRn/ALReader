@@ -21,6 +21,9 @@
     <string name="tab_text_5">历史</string>
     <string name="tab_text_6">网游</string>
     <string name="tab_text_7">科幻</string>
+    <string name="netBook">网络图书</string>
+    <string name="myBook">我的图书</string>
+    <string name="HaYuBook">哈文图书</string>
 
     <!--读书界面-->
     <string name="last_chapter">上一章</string>
@@ -42,5 +45,8 @@
     <string name="nav_name">Donald Trump</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

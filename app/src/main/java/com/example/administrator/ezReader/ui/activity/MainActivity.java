@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.ezReader.R;
+import com.example.administrator.ezReader.ui.fragment.MainHaYuBookFragment;
 import com.example.administrator.ezReader.ui.fragment.MainMyBookFragment;
 import com.example.administrator.ezReader.ui.fragment.MainSearchFragment;
 
@@ -61,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView myBook;
     @BindView(R.id.main_tv_search)
     TextView search;
-    @BindView(R.id.main_frameLayout)
-    FrameLayout frameLayout;
+    @BindView(R.id.main_tv_hayubook)
+    TextView haYuBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         search.setOnClickListener(this);
         myBook.setOnClickListener(this);
+        haYuBook.setOnClickListener(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
@@ -106,12 +108,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case 1:
                 fragment = MainMyBookFragment.newInstance();
                 break;
+            case 2:
+                fragment = MainHaYuBookFragment.newInstance();
                 default:
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_frameLayout,fragment);
+        transaction.replace(R.id.main_linearlayout,fragment);
         transaction.commit();
 
     }
@@ -124,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.main_tv_mybook:
                 initData(1);
+                break;
+            case R.id.main_tv_hayubook:
+                initData(2);
                 break;
         }
     }
