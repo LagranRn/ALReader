@@ -9,7 +9,9 @@ import com.example.administrator.ezReader.R;
 import com.example.library.BaseAdapter;
 import com.example.library.IEntity;
 
-public class UserBook implements IEntity<UserBook> {
+import java.io.Serializable;
+
+public class UserBook implements IEntity<UserBook>,Serializable {
     private String name;
     private String url;
 

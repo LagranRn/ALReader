@@ -18,13 +18,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.ezReader.adapter.ChapterItemAdapter;
 import com.example.administrator.ezReader.R;
 import com.example.administrator.ezReader.bean.Chapter;
 import com.example.administrator.ezReader.bean.Directory;
+import com.example.administrator.ezReader.bean.HayuBook;
 import com.example.administrator.ezReader.bean.Novel;
 import com.example.administrator.ezReader.util.BookUtil;
+import com.example.administrator.ezReader.util.ConnUtil;
 import com.example.administrator.ezReader.util.SpiderUtil;
 
 import java.net.MalformedURLException;
@@ -49,6 +52,9 @@ public class BookReadActivity extends AppCompatActivity {
     int textLine = 21;
     String localType = "1";
     int chapterState = -1;
+
+    String hayu = "-1";
+    HayuBook hybook;
 
     List<Directory> directories = new ArrayList<>();
     ArrayList<Chapter> chapterList = new ArrayList<>();
@@ -101,7 +107,7 @@ public class BookReadActivity extends AppCompatActivity {
         intent = getIntent();
 
         bookType = intent.getStringExtra("bookType");
-
+        Log.d(TAG, "initData: type 为" + bookType);
         if (bookType.equals("1")){
             String bookUrl = intent.getStringExtra("bookUrl");
             localType = intent.getStringExtra("localType");
@@ -110,12 +116,21 @@ public class BookReadActivity extends AppCompatActivity {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+            new GetBookTask().execute();
+
+        } else if (bookType.equals("2")){
+            Toast.makeText(this, "获取到哈语图书！", Toast.LENGTH_SHORT).show();
+            HayuBook hayu = (HayuBook) intent.getBundleExtra("bundle").getSerializable("data");
+            Log.d(TAG, "initData: 哈语的id为" + hayu.getId());
+            new GetHayuContent().execute(hayu);
+
         } else {
             novel = (Novel) intent
                     .getBundleExtra("novel")
                     .getSerializable("novel");
+            new GetBookTask().execute();
+
         }
-        new GetBookTask().execute();
     }
 
     class GetBookTask extends AsyncTask<String,Void,Boolean> {
@@ -134,6 +149,8 @@ public class BookReadActivity extends AppCompatActivity {
                     chapterNames = bk.getChapterNames();
                     chapterList = bk.getChapterList();
 
+                    break;
+                case "2":
                     break;
                     default:
             }
@@ -219,6 +236,9 @@ public class BookReadActivity extends AppCompatActivity {
                     break;
                 case "1":
                     new GetChapterTask().execute("offline");
+                case "2":
+                    chapterNames.add("nothing");
+                    new GetChapterTask().execute();
                     break;
                 default:
             }
@@ -240,6 +260,9 @@ public class BookReadActivity extends AppCompatActivity {
                             current = chapterIndex;
                             new GetChapterTask().execute();
                             break;
+                        case "2":
+                            Toast.makeText(BookReadActivity.this, "nonono", Toast.LENGTH_SHORT).show();
+                            new GetChapterTask().execute();
                         default:
                     }
 
@@ -276,9 +299,16 @@ public class BookReadActivity extends AppCompatActivity {
                     novel.setName("kgg");
                     chapter = chapterList.get(current);
                     break;
+                case "2":
+                    Chapter c = new Chapter();
+                    c.setName("no");
+                    c.setContent(hybook.getContent());
+                    chapter = c;
+                    break;
                     default:
             }
-
+            Log.d(TAG, "doInBackground: 返回的chapter: name" +chapter.getName());
+            Log.d(TAG, "doInBackground: content" + chapter.getContent());
             return chapter;
         }
 
@@ -384,6 +414,27 @@ public class BookReadActivity extends AppCompatActivity {
         mDrawerLayout.openDrawer(Gravity.START);
         rl.setVisibility(View.GONE);
         rl.startAnimation(menuHideAnim);
+    }
+
+
+    class GetHayuContent extends AsyncTask<HayuBook,Void,HayuBook>{
+
+
+        @Override
+        protected HayuBook doInBackground(HayuBook... hayuBooks) {
+            String content = ConnUtil.getHayuContent(hayuBooks[0].getId());
+            HayuBook hayuBook = hayuBooks[0];
+            hayuBook.setContent(content);
+            Log.d(TAG, "doInBackground: 得到的内容为：" + content);
+            return hayuBook;
+        }
+
+
+        @Override
+        protected void onPostExecute(HayuBook hayuBook) {
+            hybook = hayuBook;
+            new GetBookTask().execute();
+        }
     }
 
 }

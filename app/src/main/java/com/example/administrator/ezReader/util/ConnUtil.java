@@ -16,8 +16,8 @@ import java.util.List;
 
 public class ConnUtil {
     private static final String TAG = "ConnUtil";
-    public static String ipAddress = "192.168.43.172";
-    public static int port = 8808;
+    private static String ipAddress = "192.168.43.172";
+    private static int port = 9999;
 
     public static void Conn2Server(){
         try {
@@ -51,13 +51,14 @@ public class ConnUtil {
 
     public static List<HayuBook> sendMsg(){
         try {
+            Log.d(TAG, "sendMsg: " + ipAddress + "  "+port);
             System.out.println("ready to conn...");
-            Socket socket = new Socket("132.232.118.114",9999);
+            Socket socket = new Socket(ipAddress,port);
             System.out.println("conn success...");
             OutputStream os = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(os);
             System.out.println("send msg..");
-            pw.write("00001,\n");
+            pw.write("00001,1\n");
             pw.flush();
             System.out.println("send success..");
             InputStream is = socket.getInputStream();
@@ -70,7 +71,9 @@ public class ConnUtil {
             while ((temp = br.readLine())!=null){
                 Log.d(TAG, "sendMsg: 333" + temp);
                 String[] msg = temp.split(",");
-                books.add(new HayuBook(msg[0],msg[1]));
+                if (msg.length>1){
+                    books.add(new HayuBook(msg[0],msg[1]));
+                }
             }
             Log.d(TAG, "sendMsg: the size of book is :" + books.size());
             os.close();
@@ -83,6 +86,43 @@ public class ConnUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getHayuContent(String id){
+        try {
+            Log.d(TAG, "sendMsg: " + ipAddress + "  "+port);
+            System.out.println("ready to conn...");
+            Socket socket = new Socket(ipAddress,port);
+            System.out.println("conn success...");
+            OutputStream os = socket.getOutputStream();
+            PrintWriter pw = new PrintWriter(os);
+            System.out.println("send msg..");
+            pw.write("00002,"+id+"\n");
+            pw.flush();
+            System.out.println("send success..");
+            InputStream is = socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String temp;
+            StringBuffer sb = new StringBuffer();
+            System.out.println("ready receive...");
+            StringBuffer content = new StringBuffer();
+            while ((temp = br.readLine())!=null){
+                Log.d(TAG, "sendMsg: 接收到内容" + temp);
+                content.append(temp);
+            }
+            os.close();
+            socket.close();
+            isr.close();
+            is.close();
+
+            return content.toString();
+
+        } catch (IOException e) {
+            System.out.println("conn error");
+            e.printStackTrace();
+        }
+        return "-1";
     }
 
 }
