@@ -16,21 +16,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SpiderUtil {
-    private static final String TAG = "SpiderUtil";
 
+    // 正则表达式定义 分别是获取小说、小说章节、小说详情
     private static final String NOVEL_REG = "class=\"s2\"><a href=\"(.*?)\">(.*?)<.*?\">(.*?)<";
-    private static final String CHAPTER_REG = "id=\"content\">(.*?)</div>";
     private static final String DIR_REG = "<dd><a href=\"(.*?)\">(.*?)</a>";
     private static final String DETAIL_REG = "title\" content=\"(.*?)\"" + ".*?" + "description\" content=\"(.*?)\"/>"
             + ".*?" + "image\" content=\"(.*?)\"/>" + ".*?" + "author\" content=\"(.*?)\"/>" + ".*?"
             + "status\" content=\"(.*?)\"/>" + ".*?" + "update_time\" content=\"(.*?)\"/>" + ".*?"
             + "latest_chapter_name\" content=\"(.*?)\"/>";
 
-    // 获取小说
+    /**
+     * 获取网页页面内的所有小说信息
+     *
+     * @param url 网页网址，具体看Constant类中的定义
+     * @return 返回小说列表
+     */
     public static List<Novel> getNovels(String url) {
         List<Novel> novels = new ArrayList<>(); // 存放小说
         List<String> names = new ArrayList<>(); // 存放小说名，防止重复
 
+        // 创建Java里的正则表达式对象
         Pattern pattern = Pattern.compile(NOVEL_REG);
         Matcher matcher = pattern.matcher(getHtml(url, "\n"));
 
@@ -44,11 +49,16 @@ public class SpiderUtil {
                 names.add(newNovel.getName());
             }
         }
-
         return novels;
     }
 
-    // 获取所有 章节 小说一些详情
+
+    /**
+     * 获取所有 章节 小说一些详情
+     *
+     * @param bookUrl 小说详情页网址
+     * @return 小说所有章节的列表
+     */
     public static List<Directory> getDirectory(String bookUrl) {
         List<Directory> dirs = new ArrayList<>();
 
@@ -61,16 +71,21 @@ public class SpiderUtil {
             newDir.setUrl(Constant.BIQUGE + matcher.group(1));
             dirs.add(newDir);
         }
-
         return dirs;
     }
 
-    // 获取每一章的内容
+
+    /**
+     * 获取每一章的内容
+     *
+     * @param chapterUrl 传入每一章的网址
+     * @return 返回该章书的内容
+     */
     public static String getChapterContent(String chapterUrl) {
 
         String html = getHtml(chapterUrl, "\n");
 
-        // 获取内容
+        // 从网页代码中提取小说内容并将一些其他字符进行替代
         String content = html.toString()
                 .substring(html.indexOf("id=\"content\">") + "id=\"content\">".length(),
                         html.indexOf("</div>", html.indexOf("id=\"content\">")))
@@ -79,7 +94,13 @@ public class SpiderUtil {
         return content;
     }
 
-    // 一次返回小说的书名、简介、封面地址、作者、状态（更新、停更等）、最后更新时间、最新章节
+
+    /**
+     * 依次返回小说的书名、简介、封面地址、作者、状态（更新、停更等）、最后更新时间、最新章节
+     *
+     * @param bookUrl 书的网页地址
+     * @return
+     */
     public static List<String> getNovelDetails(String bookUrl) {
         List<String> details = new ArrayList<String>();
 
@@ -100,7 +121,12 @@ public class SpiderUtil {
         return details;
     }
 
-    // 获取网页
+
+    /**
+     * @param url  网址
+     * @param kind 换行符或者空 （考虑到有些网页换行之后不利于正则表达式处理）
+     * @return 放回网页的代码
+     */
     private static String getHtml(String url, String kind) {
 
         StringBuilder sb = new StringBuilder();
@@ -108,7 +134,7 @@ public class SpiderUtil {
             BufferedReader reader = null;
             URL resultUrl = new URL(url);
             URLConnection conn = resultUrl.openConnection();
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"GBK"));
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "GBK"));
 
             String line = null;
 

@@ -4,6 +4,7 @@ public class Chapter {
 
     public String name;  // 章节名字  如果是序言，章节名则为 preface
     public String content; // 每一章的内容
+    private String url;
 
     public String getName() {
         return name;

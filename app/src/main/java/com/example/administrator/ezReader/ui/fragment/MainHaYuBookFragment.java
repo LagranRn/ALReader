@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.ezReader.R;
+import com.example.administrator.ezReader.adapter.HayuBookRecyclerViewAdapter;
 import com.example.administrator.ezReader.bean.HayuBook;
 import com.example.administrator.ezReader.util.ConnUtil;
-import com.example.library.BaseAdapter;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class MainHaYuBookFragment extends Fragment {
 
     @BindView(R.id.main_ha_yu_book_fragment_rv)
     RecyclerView recyclerView;
+
     public MainHaYuBookFragment() {
         // Required empty public constructor
     }
@@ -43,24 +44,22 @@ public class MainHaYuBookFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_ha_yu_book, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         new GetHaYuBook().execute();
-        return  view;
+        return view;
     }
 
-    class GetHaYuBook extends AsyncTask<Void,Void,List<HayuBook>>{
+    class GetHaYuBook extends AsyncTask<Void, Void, List<HayuBook>> {
 
         @Override
         protected List<HayuBook> doInBackground(Void... voids) {
-           return ConnUtil.sendMsg();
+            return ConnUtil.sendMsg();
         }
 
         @Override
         protected void onPostExecute(List<HayuBook> hayuBooks) {
             List<HayuBook> books = hayuBooks;
-            BaseAdapter adapter = new BaseAdapter.Builder()
-                    .setDataList(books)
-                    .build();
+            HayuBookRecyclerViewAdapter adapter = new HayuBookRecyclerViewAdapter(books);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(adapter);
         }

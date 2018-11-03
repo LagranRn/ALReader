@@ -19,9 +19,9 @@ public class ConnUtil {
     private static String ipAddress = "192.168.43.172";
     private static int port = 9999;
 
-    public static void Conn2Server(){
+    public static void Conn2Server() {
         try {
-            Socket socket = new Socket(ipAddress,port);
+            Socket socket = new Socket(ipAddress, port);
             Log.d(TAG, "Conn2Server: 连接成功");
             OutputStream os = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(os);
@@ -33,7 +33,7 @@ public class ConnUtil {
             InputStream is = socket.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String info = null;
-            while ((info = br.readLine()) != null){
+            while ((info = br.readLine()) != null) {
                 Log.d(TAG, "Conn2Server: 服务器：" + info);
             }
 
@@ -49,11 +49,11 @@ public class ConnUtil {
         }
     }
 
-    public static List<HayuBook> sendMsg(){
+    public static List<HayuBook> sendMsg() {
         try {
-            Log.d(TAG, "sendMsg: " + ipAddress + "  "+port);
+            Log.d(TAG, "sendMsg: " + ipAddress + "  " + port);
             System.out.println("ready to conn...");
-            Socket socket = new Socket(ipAddress,port);
+            Socket socket = new Socket(ipAddress, port);
             System.out.println("conn success...");
             OutputStream os = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(os);
@@ -68,11 +68,11 @@ public class ConnUtil {
             StringBuffer sb = new StringBuffer();
             System.out.println("ready receive...");
             List<HayuBook> books = new ArrayList<>();
-            while ((temp = br.readLine())!=null){
+            while ((temp = br.readLine()) != null) {
                 Log.d(TAG, "sendMsg: 333" + temp);
                 String[] msg = temp.split(",");
-                if (msg.length>1){
-                    books.add(new HayuBook(msg[0],msg[1]));
+                if (msg.length > 1) {
+                    books.add(new HayuBook(msg[0], msg[1]));
                 }
             }
             Log.d(TAG, "sendMsg: the size of book is :" + books.size());
@@ -88,16 +88,16 @@ public class ConnUtil {
         return null;
     }
 
-    public static String getHayuContent(String id){
+    public static String getHayuContent(String id) {
         try {
-            Log.d(TAG, "sendMsg: " + ipAddress + "  "+port);
+            Log.d(TAG, "sendMsg: " + ipAddress + "  " + port);
             System.out.println("ready to conn...");
-            Socket socket = new Socket(ipAddress,port);
+            Socket socket = new Socket(ipAddress, port);
             System.out.println("conn success...");
             OutputStream os = socket.getOutputStream();
             PrintWriter pw = new PrintWriter(os);
             System.out.println("send msg..");
-            pw.write("00002,"+id+"\n");
+            pw.write("00002," + id + "\n");
             pw.flush();
             System.out.println("send success..");
             InputStream is = socket.getInputStream();
@@ -107,7 +107,7 @@ public class ConnUtil {
             StringBuffer sb = new StringBuffer();
             System.out.println("ready receive...");
             StringBuffer content = new StringBuffer();
-            while ((temp = br.readLine())!=null){
+            while ((temp = br.readLine()) != null) {
                 Log.d(TAG, "sendMsg: 接收到内容" + temp);
                 content.append(temp);
             }

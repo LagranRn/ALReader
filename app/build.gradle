@@ -45,6 +45,4 @@ dependencies {
     // 圆形图片
     implementation 'de.hdodenhof:circleimageview:2.1.0'
 
-    // adapter
-    implementation 'com.zzx:BaseAdapter:2.0.5'
 }

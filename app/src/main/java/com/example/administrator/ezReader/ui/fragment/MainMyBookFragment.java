@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.administrator.ezReader.R;
+import com.example.administrator.ezReader.adapter.UserBookRecyclerViewAdapter;
 import com.example.administrator.ezReader.bean.UserBook;
-import com.example.library.BaseAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,16 +58,15 @@ public class MainMyBookFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main_my_book, container, false);
         List<UserBook> books = new ArrayList<>();
-        for (int i =0; i < 10; i ++){
-            UserBook userBook = new UserBook("第"+String.valueOf(i));
+        for (int i = 0; i < 10; i++) {
+            UserBook userBook = new UserBook("第" + String.valueOf(i));
             books.add(userBook);
         }
-        BaseAdapter adapter = new BaseAdapter.Builder()
-                .setDataList(books)
-                .build();
 
-        ButterKnife.bind(this,view);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+        UserBookRecyclerViewAdapter adapter = new UserBookRecyclerViewAdapter(books);
+
+        ButterKnife.bind(this, view);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(adapter);
         return view;
     }
