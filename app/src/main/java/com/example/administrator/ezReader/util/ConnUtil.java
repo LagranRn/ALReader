@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ConnUtil {
     private static final String TAG = "ConnUtil";
-    private static String ipAddress = "192.168.43.172";
+    private static String ipAddress = "132.232.118.114";
     private static int port = 9999;
 
     public static void Conn2Server() {

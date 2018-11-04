@@ -23,7 +23,6 @@ public class BookUtil {
      * 传入书的路径 初始化
      */
     public BookUtil(String bookUrl, String type) {
-        // TODO: 2018/10/22 0022  文字编码判断，如果是汉语用gbk，如果是哈文就用unicode， 其他万物都一样
         this(); //调用无参构造函数进行变量初始化
         String charSet = "GBK";
         try {

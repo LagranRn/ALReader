@@ -30,7 +30,7 @@ public class HayuBookRecyclerViewAdapter extends RecyclerView.Adapter<HayuBookRe
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_book, viewGroup, false);
+                .inflate(R.layout.item_hayu_book, viewGroup, false);
         return new MyViewHolder(view);
     }
 

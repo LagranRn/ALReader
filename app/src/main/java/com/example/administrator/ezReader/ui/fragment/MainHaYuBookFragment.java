@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.administrator.ezReader.R;
 import com.example.administrator.ezReader.adapter.HayuBookRecyclerViewAdapter;
@@ -58,6 +59,10 @@ public class MainHaYuBookFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<HayuBook> hayuBooks) {
+            if (hayuBooks == null){
+                Toast.makeText(getContext(), "请检查网络！", Toast.LENGTH_SHORT).show();
+                return;
+            }
             List<HayuBook> books = hayuBooks;
             HayuBookRecyclerViewAdapter adapter = new HayuBookRecyclerViewAdapter(books);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
