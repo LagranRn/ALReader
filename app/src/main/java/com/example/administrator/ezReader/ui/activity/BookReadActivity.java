@@ -20,7 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.ezReader.adapter.ChapterItemAdapter;
+import com.example.administrator.ezReader.adapter.ChapterRecyclerViewAdapter;
 import com.example.administrator.ezReader.R;
 import com.example.administrator.ezReader.bean.Chapter;
 import com.example.administrator.ezReader.bean.Directory;
@@ -266,9 +266,9 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
             RecyclerView recyclerView = findViewById(R.id.read_category);
 
             recyclerView.setLayoutManager(new LinearLayoutManager(new BookReadActivity()));
-            ChapterItemAdapter adapter = new ChapterItemAdapter(chapterNames);
+            ChapterRecyclerViewAdapter adapter = new ChapterRecyclerViewAdapter(chapterNames);
 
-            adapter.setClickListener(new ChapterItemAdapter.IChapterItemAdapterListener() {
+            adapter.setClickListener(new ChapterRecyclerViewAdapter.IChapterItemAdapterListener() {
                 @Override
                 public void onItemClick(int chapterIndex) {
                     switch (bookType) {

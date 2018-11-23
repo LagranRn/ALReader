@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.example.administrator.ezReader.adapter.MyItemRecyclerViewAdapter;
+import com.example.administrator.ezReader.adapter.NetBookRecyclerViewAdapter;
 import com.example.administrator.ezReader.R;
 import com.example.administrator.ezReader.bean.Novel;
 import com.example.administrator.ezReader.ui.activity.BookDetailActivity;
@@ -92,12 +92,12 @@ public class BookItemFragment extends Fragment{
             super.onPostExecute(novels);
             Log.d(TAG, "onPostExecute: " + novels.size());
             progressBar.setVisibility(View.INVISIBLE);
-            MyItemRecyclerViewAdapter adapter = new MyItemRecyclerViewAdapter(novels);
+            NetBookRecyclerViewAdapter adapter = new NetBookRecyclerViewAdapter(novels);
 
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            adapter.setClickListener(new MyItemRecyclerViewAdapter.OnListFragmentInteractionListener() {
+            adapter.setClickListener(new NetBookRecyclerViewAdapter.OnListFragmentInteractionListener() {
                 @Override
                 public void onListFragmentInteraction(Novel novel) {
                     Intent intent = new Intent(getContext(),BookDetailActivity.class);

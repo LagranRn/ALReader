@@ -14,12 +14,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChapterItemAdapter extends  RecyclerView.Adapter<ChapterItemAdapter.MyHolder> {
-    private static final String TAG = "ChapterItemAdapter";
+public class ChapterRecyclerViewAdapter extends  RecyclerView.Adapter<ChapterRecyclerViewAdapter.MyHolder> {
+    private static final String TAG = "ChapterRecyclerViewAdapter";
     private  List<String> chapters;
     private IChapterItemAdapterListener mListener;
 
-    public ChapterItemAdapter(List<String> chapters) {
+    public ChapterRecyclerViewAdapter(List<String> chapters) {
         this.chapters = chapters;
     }
 

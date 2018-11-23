@@ -19,15 +19,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class NetBookRecyclerViewAdapter extends RecyclerView.Adapter<NetBookRecyclerViewAdapter.ViewHolder> {
 
-    private static final String TAG = "MyItemRecyclerViewAdapt";
-
+    private static final String TAG = "NetBookRecyclerViewAdap";
     private final List<Novel> mNovels;
     private OnListFragmentInteractionListener mListener;
 
 
-    public MyItemRecyclerViewAdapter(List<Novel> items) {
+    public NetBookRecyclerViewAdapter(List<Novel> items) {
         mNovels = items;
     }
 
