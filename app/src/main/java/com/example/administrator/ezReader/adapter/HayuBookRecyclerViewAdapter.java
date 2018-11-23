@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 
 public class HayuBookRecyclerViewAdapter extends RecyclerView.Adapter<HayuBookRecyclerViewAdapter.MyViewHolder> {
 
+    private HayuBookClickListener listener;
     List<HayuBook> data;
 
     public HayuBookRecyclerViewAdapter(List<HayuBook> books) {
@@ -40,16 +41,7 @@ public class HayuBookRecyclerViewAdapter extends RecyclerView.Adapter<HayuBookRe
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("data", data.get(i));
-                Intent intent = new Intent(myViewHolder.itemView.getContext(), BookReadActivity.class);
-                intent.putExtra("bookType", "2");
-                intent.putExtra("bundle", bundle);
-                myViewHolder.itemView.getContext().startActivity(intent);
-
-//                Toast.makeText(view.getContext(), data.getContent(), Toast.LENGTH_SHORT).show();
-
+                listener.onItemClick(data.get(i));
                 /*try {
                     File file = new File(view.getContext().getExternalFilesDir(null).getAbsolutePath() + "/"+data.getName()+".txt");
                     Log.d(TAG, "onClick: 文件路径：" + file.getAbsolutePath());
@@ -76,6 +68,10 @@ public class HayuBookRecyclerViewAdapter extends RecyclerView.Adapter<HayuBookRe
         return data.size();
     }
 
+    public void setListener(HayuBookClickListener listener) {
+        this.listener = listener;
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item_hayu_tv)
         TextView mTextView;
@@ -85,4 +81,10 @@ public class HayuBookRecyclerViewAdapter extends RecyclerView.Adapter<HayuBookRe
             ButterKnife.bind(this, itemView);
         }
     }
+
+    public interface HayuBookClickListener{
+
+        void onItemClick(HayuBook hayuBook);
+    }
+
 }

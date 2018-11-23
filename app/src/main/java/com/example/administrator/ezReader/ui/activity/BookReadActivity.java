@@ -51,6 +51,7 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
     int textSize = 18; //14
     int textLine = 21;
     int chapterState = -1;
+    String name = "error";
 
     HayuBook hybook;
     Novel novel = new Novel();
@@ -251,6 +252,7 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
                 case "2"://在线哈语小说
                     chapterNames.add("无目录");
                     new GetChapterTask().execute();
+                    novel.setName(hybook.getName());
                     break;
             }
 
@@ -317,8 +319,6 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
                     break;
                 default:
             }
-            Log.d(TAG, "doInBackground: 返回的chapter: name" + chapter.getName());
-            Log.d(TAG, "doInBackground: content" + chapter.getContent());
             return chapter;
         }
 
@@ -328,6 +328,8 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
 
             pv.setExtraInfo(s.getName());
             pv.setText(s.getContent());
+            Log.d(TAG, "onPostExecute: 章节名" + s.getName());
+            Log.d(TAG, "onPostExecute: 小说名" + novel.getName());
             pv.setChapterName(novel.getName());
 
             pv.setTextLine(textLine);

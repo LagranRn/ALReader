@@ -1,5 +1,6 @@
 package com.example.administrator.ezReader.ui.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.example.administrator.ezReader.R;
 import com.example.administrator.ezReader.adapter.HayuBookRecyclerViewAdapter;
 import com.example.administrator.ezReader.bean.HayuBook;
+import com.example.administrator.ezReader.ui.activity.BookReadActivity;
 import com.example.administrator.ezReader.util.ConnUtil;
 
 import java.util.List;
@@ -91,6 +93,17 @@ public class MainHaYuBookFragment extends Fragment implements View.OnClickListen
             HayuBookRecyclerViewAdapter adapter = new HayuBookRecyclerViewAdapter(books);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(adapter);
+            adapter.setListener(new HayuBookRecyclerViewAdapter.HayuBookClickListener() {
+                @Override
+                public void onItemClick(HayuBook hayuBook) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("data", hayuBook);
+                    Intent intent = new Intent(getContext(), BookReadActivity.class);
+                    intent.putExtra("bookType", "2");
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                }
+            });
         }
 
     }

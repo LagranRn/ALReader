@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.administrator.ezReader.adapter.NetBookRecyclerViewAdapter;
 import com.example.administrator.ezReader.R;
+import com.example.administrator.ezReader.bean.Constant;
 import com.example.administrator.ezReader.bean.Novel;
 import com.example.administrator.ezReader.ui.activity.BookDetailActivity;
 import com.example.administrator.ezReader.util.SpiderUtil;
@@ -100,11 +102,16 @@ public class BookItemFragment extends Fragment{
             adapter.setClickListener(new NetBookRecyclerViewAdapter.OnListFragmentInteractionListener() {
                 @Override
                 public void onListFragmentInteraction(Novel novel) {
-                    Intent intent = new Intent(getContext(),BookDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("novel",novel);
-                    intent.putExtra(BookDetailFragment.ARG_ITEM_ID,bundle);
-                    startActivity(intent);
+                    if (Constant.NOWUSER == 1){
+                        Intent intent = new Intent(getContext(),BookDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("novel",novel);
+                        intent.putExtra(BookDetailFragment.ARG_ITEM_ID,bundle);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
         }
