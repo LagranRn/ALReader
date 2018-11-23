@@ -22,7 +22,8 @@
     <string name="tab_text_6">网游</string>
     <string name="tab_text_7">科幻</string>
     <string name="netBook">网络图书</string>
-    <string name="myBook">我的图书</string>
+    <string name="myBook">我的收藏</string>
+    <string name="search">搜索</string>
     <string name="HaYuBook">哈文图书</string>
 
     <!--读书界面-->

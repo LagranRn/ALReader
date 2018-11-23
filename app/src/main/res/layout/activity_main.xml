@@ -76,7 +76,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_layout"
-
         app:menu="@menu/nav_menu">
 
         <LinearLayout
@@ -89,13 +88,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="哈语" />
+                android:text="@string/HaYuBook" />
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp" />
+
+            <TextView
+                android:id="@+id/main_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login"/>
         </LinearLayout>
+
 
 
     </android.support.design.widget.NavigationView>

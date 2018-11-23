@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView search;
     @BindView(R.id.main_tv_hayubook)
     TextView haYuBook;
+    @BindView(R.id.main_login)
+    TextView login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         search.setOnClickListener(this);
         myBook.setOnClickListener(this);
         haYuBook.setOnClickListener(this);
+        login.setOnClickListener(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
@@ -131,6 +134,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.main_tv_hayubook:
                 initData(2);
+                break;
+            case R.id.main_login:
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
                 break;
         }
     }

@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.administrator.ezReader.R;
@@ -20,10 +22,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainHaYuBookFragment extends Fragment {
+public class MainHaYuBookFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.main_ha_yu_book_fragment_rv)
     RecyclerView recyclerView;
+    @BindView(R.id.main_ha_yu_book_fragment_progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.main_ha_yu_book_fragment_search)
+    Button search;
 
     public MainHaYuBookFragment() {
         // Required empty public constructor
@@ -46,11 +52,27 @@ public class MainHaYuBookFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_ha_yu_book, container, false);
         ButterKnife.bind(this, view);
+        search.setOnClickListener(this);
         new GetHaYuBook().execute();
         return view;
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.main_ha_yu_book_fragment_search:
+                Toast.makeText(getContext(), "进入搜索", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
     class GetHaYuBook extends AsyncTask<Void, Void, List<HayuBook>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected List<HayuBook> doInBackground(Void... voids) {
@@ -59,10 +81,12 @@ public class MainHaYuBookFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<HayuBook> hayuBooks) {
+            progressBar.setVisibility(View.GONE);
             if (hayuBooks == null){
                 Toast.makeText(getContext(), "请检查网络！", Toast.LENGTH_SHORT).show();
                 return;
             }
+            search.setVisibility(View.VISIBLE);
             List<HayuBook> books = hayuBooks;
             HayuBookRecyclerViewAdapter adapter = new HayuBookRecyclerViewAdapter(books);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

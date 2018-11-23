@@ -49,6 +49,8 @@ public class ConnUtil {
         }
     }
 
+
+
     public static List<HayuBook> sendMsg() {
         try {
             Log.d(TAG, "sendMsg: " + ipAddress + "  " + port);
@@ -121,6 +123,41 @@ public class ConnUtil {
         } catch (IOException e) {
             System.out.println("conn error");
             e.printStackTrace();
+        }
+        return "-1";
+    }
+
+    public static String login(String account, String password){
+        try {
+            Socket socket = new Socket(ipAddress,port);
+            OutputStream os = socket.getOutputStream();
+            PrintWriter pw = new PrintWriter(os);
+            System.out.println("send msg..");
+            pw.write("00003," + account + "," + password + "\n");
+            pw.flush();
+
+            System.out.println("send success..");
+            InputStream is = socket.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String temp;
+            StringBuffer sb = new StringBuffer();
+            System.out.println("ready receive...");
+            StringBuffer content = new StringBuffer();
+            while ((temp = br.readLine()) != null) {
+                Log.d(TAG, "login: 接收到内容" + temp);
+                content.append(temp);
+            }
+
+            Log.d(TAG, "login:" + content.toString());
+            os.close();
+            socket.close();
+            isr.close();
+            is.close();
+
+            return content.toString();
+        } catch (IOException e) {
+            Log.d(TAG, "login: 连接失败");
         }
         return "-1";
     }
