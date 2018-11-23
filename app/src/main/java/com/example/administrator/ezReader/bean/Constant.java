@@ -18,5 +18,4 @@ public class Constant {
     }
 
     public static int NOWUSER = -1;
-
 }

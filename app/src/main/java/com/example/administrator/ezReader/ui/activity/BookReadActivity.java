@@ -30,8 +30,6 @@ import com.example.administrator.ezReader.util.BookUtil;
 import com.example.administrator.ezReader.util.ConnUtil;
 import com.example.administrator.ezReader.util.SpiderUtil;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,13 +46,14 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
 
     int current = 0;// 当前所在章节
     String bookType = "1"; //0,在线；1本地
+    String localType = "1";
+
     int textSize = 18; //14
     int textLine = 21;
-    String localType = "1";
     int chapterState = -1;
 
-    String hayu = "-1";
     HayuBook hybook;
+    Novel novel = new Novel();
 
     List<Directory> directories = new ArrayList<>();
     ArrayList<Chapter> chapterList = new ArrayList<>();
@@ -63,9 +62,6 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
     Animation menuShowAnim;
     Animation menuHideAnim;
 
-    Novel novel = new Novel();
-    URL book ;
-    Intent intent;
 
     @BindView(R.id.read_pv)
     PaperView pv;
@@ -89,7 +85,7 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ButterKnife.bind(this);
 
         initView();
@@ -98,7 +94,7 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    public void initView(){
+    public void initView() {
 
         menuHideAnim = AnimationUtils.loadAnimation(this, R.anim.menu_hide);
         menuShowAnim = AnimationUtils.loadAnimation(this, R.anim.menu_show);
@@ -109,39 +105,37 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    public void initData(){
-        intent = getIntent();
+    public void initData() {
 
+        Intent intent = getIntent();
         bookType = intent.getStringExtra("bookType");
         Log.d(TAG, "initData: type 为" + bookType);
-        if (bookType.equals("1")){
-            String bookUrl = intent.getStringExtra("bookUrl");
-            localType = intent.getStringExtra("localType");
-            try {
-                book = new URL(bookUrl);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            new GetBookTask().execute();
 
-        } else if (bookType.equals("2")){
-            Toast.makeText(this, "获取到哈语图书！", Toast.LENGTH_SHORT).show();
-            HayuBook hayu = (HayuBook) intent.getBundleExtra("bundle").getSerializable("data");
-            Log.d(TAG, "initData: 哈语的id为" + hayu.getId());
-            new GetHayuContent().execute(hayu);
 
-        } else {
-            novel = (Novel) intent
-                    .getBundleExtra("novel")
-                    .getSerializable("novel");
-            new GetBookTask().execute();
-
+        switch (bookType) {
+            case "0"://在线网络小说
+                Log.d(TAG, "initData: " + bookType);
+                novel = (Novel) intent
+                        .getBundleExtra("novel")
+                        .getSerializable("novel");
+                new GetBookTask().execute();
+                break;
+            case "1"://本地图书
+                localType = intent.getStringExtra("localType");
+                new GetBookTask().execute();
+                break;
+            case "2"://在线哈语图书
+                Toast.makeText(this, "获取到哈语图书！", Toast.LENGTH_SHORT).show();
+                hybook = (HayuBook) intent.getBundleExtra("bundle").getSerializable("data");
+                new GetBookTask().execute();
+                break;
         }
+
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.read_tv_add2book:
                 Toast.makeText(this, "已经加入到书架！", Toast.LENGTH_SHORT).show();
                 break;
@@ -153,26 +147,24 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    class GetBookTask extends AsyncTask<String,Void,Boolean> {
+    class GetBookTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            switch (bookType){
-
-                case "0":
+            switch (bookType) {
+                case "0"://在线小说
                     directories = SpiderUtil.getDirectory(novel.getUrl());
                     break;
-                case "1":
-
+                case "1"://本地小说
                     BookUtil bk = new BookUtil(getIntent()
-                            .getStringExtra("bookUrl"),localType);
+                            .getStringExtra("bookUrl"), localType);
                     chapterNames = bk.getChapterNames();
                     chapterList = bk.getChapterList();
-
                     break;
-                case "2":
+                case "2"://在线哈语
+                    String content = ConnUtil.getHayuContent(hybook.getId());
+                    hybook.setContent(content);
                     break;
-                    default:
             }
             return true;
         }
@@ -180,7 +172,6 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(Boolean b) {
             pb.setVisibility(View.GONE);
-
             pv.setOnPageStateListener(new PaperView.onPageStateLinstener() {
                 @Override
                 public boolean getNextChapter() {
@@ -203,7 +194,7 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void centerClicked() {
 
-                    if (rl.isShown()){
+                    if (rl.isShown()) {
                         rl.setVisibility(View.INVISIBLE);
                         rl.startAnimation(menuHideAnim);
                     } else {
@@ -217,7 +208,7 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
                 public void incChapter() {
                     //滑动增加章节
                     chapterState *= -1;
-                    if (chapterState == 1){
+                    if (chapterState == 1) {
                         nextC();
                     }
                 }
@@ -226,7 +217,7 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
                 public void decChapter() {
                     //滑动减少章节
                     chapterState *= -1;
-                    if (chapterState == 1){
+                    if (chapterState == 1) {
                         lastC();
                     }
                 }
@@ -245,22 +236,22 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
 
         }
 
-        private void initClickView(){
+        private void initClickView() {
 
             switch (bookType) {
-                case "0":
+                case "0"://在线网络小说
                     new GetChapterTask().execute(directories.get(current).getUrl());
-                    for (int i = 0; i < directories.size(); i ++){
+                    for (int i = 0; i < directories.size(); i++) {
                         chapterNames.add(directories.get(i).getTitle());
                     }
                     break;
-                case "1":
-                    new GetChapterTask().execute("offline");
-                case "2":
-                    chapterNames.add("nothing");
+                case "1"://本地小说
                     new GetChapterTask().execute();
                     break;
-                default:
+                case "2"://在线哈语小说
+                    chapterNames.add("无目录");
+                    new GetChapterTask().execute();
+                    break;
             }
 
             RecyclerView recyclerView = findViewById(R.id.read_category);
@@ -280,12 +271,8 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
                             current = chapterIndex;
                             new GetChapterTask().execute();
                             break;
-                        case "2":
-                            Toast.makeText(BookReadActivity.this, "nonono", Toast.LENGTH_SHORT).show();
-                            new GetChapterTask().execute();
                         default:
                     }
-
                     mDrawerLayout.closeDrawer(Gravity.START);
                 }
 
@@ -299,7 +286,7 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    class GetChapterTask extends AsyncTask<String, Void, Chapter>{
+    class GetChapterTask extends AsyncTask<String, Void, Chapter> {
 
         Chapter chapter = new Chapter();
 
@@ -310,24 +297,27 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         protected Chapter doInBackground(String... strings) {
-            switch (bookType){
+            switch (bookType) {
                 case "0":
                     chapter.setName(directories.get(current).getTitle());
                     chapter.setContent(SpiderUtil.getChapterContent(strings[0]));
                     break;
                 case "1":
-                    novel.setName("kgg");
+                    String bookUrl = getIntent()
+                            .getStringExtra("bookUrl");
+                    String name = bookUrl.split("/")[bookUrl.split("/").length - 1].split("\\.")[0];
+                    novel.setName(name);
                     chapter = chapterList.get(current);
                     break;
                 case "2":
                     Chapter c = new Chapter();
-                    c.setName("no");
+                    c.setName(hybook.getName());
                     c.setContent(hybook.getContent());
                     chapter = c;
                     break;
-                    default:
+                default:
             }
-            Log.d(TAG, "doInBackground: 返回的chapter: name" +chapter.getName());
+            Log.d(TAG, "doInBackground: 返回的chapter: name" + chapter.getName());
             Log.d(TAG, "doInBackground: content" + chapter.getContent());
             return chapter;
         }
@@ -350,107 +340,89 @@ public class BookReadActivity extends AppCompatActivity implements View.OnClickL
 
         }
     }
-    public void incTextSize(View view){
-        if (textSize  <  22){
-            textSize ++;
-            textSize ++;
-            textLine --;
-            textLine --;
+
+    public void incTextSize(View view) {
+        if (textSize < 22) {
+            textSize++;
+            textSize++;
+            textLine--;
+            textLine--;
             new GetChapterTask().execute(directories.get(current).getUrl());
 
         } else {
-            Snackbar.make(pv,"再大就装不下了~",Snackbar.LENGTH_SHORT).show();
-
-        }
-
-    }
-    public void decTextSize(View view){
-        if (textSize > 14){
-            textSize --;
-            textSize --;
-            textLine ++;
-            textLine ++;
-            new GetChapterTask().execute(directories.get(current).getUrl());
-        } else {
-            Snackbar.make(pv,"再小就看不见了~",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(pv, "再大就装不下了~", Snackbar.LENGTH_SHORT).show();
 
         }
 
     }
 
+    public void decTextSize(View view) {
+        if (textSize > 14) {
+            textSize--;
+            textSize--;
+            textLine++;
+            textLine++;
+            new GetChapterTask().execute(directories.get(current).getUrl());
+        } else {
+            Snackbar.make(pv, "再小就看不见了~", Snackbar.LENGTH_SHORT).show();
 
-    public void nextChapter(View view){
+        }
+
+    }
+
+
+    public void nextChapter(View view) {
         nextC();
     }
-    public void lastChapter(View view){
+
+    public void lastChapter(View view) {
         lastC();
     }
 
-    public void nextC(){
-        switch (bookType){
+    public void nextC() {
+        switch (bookType) {
             case "0":
-                if (current < directories.size() - 1){
+                if (current < directories.size() - 1) {
                     current++;
                     new GetChapterTask().execute(directories.get(current).getUrl());
                 } else {
-                    Snackbar.make(pv,"欢迎来到世界的尽头~",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(pv, "欢迎来到世界的尽头~", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case "1":
-                if (current < chapterList.size() - 1){
+                if (current < chapterList.size() - 1) {
                     current++;
                     new GetChapterTask().execute();
                 } else {
-                    Snackbar.make(pv,"欢迎来到世界的尽头~",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(pv, "欢迎来到世界的尽头~", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             default:
         }
 
     }
-    public void lastC(){
-        switch (bookType){
+
+    public void lastC() {
+        switch (bookType) {
             case "0":
-                if (current > 0){
+                if (current > 0) {
                     current--;
                     new GetChapterTask().execute(directories.get(current).getUrl());
                 } else {
-                    Snackbar.make(pv,"欢迎来到世界的起点~",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(pv, "欢迎来到世界的起点~", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             case "1":
-                if (current > 0){
+                if (current > 0) {
                     current--;
                     new GetChapterTask().execute();
                 } else {
-                    Snackbar.make(pv,"欢迎来到世界的起点~",Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(pv, "欢迎来到世界的起点~", Snackbar.LENGTH_SHORT).show();
                 }
                 break;
             default:
         }
     }
 
-
-
-
-    class GetHayuContent extends AsyncTask<HayuBook,Void,HayuBook>{
-
-
-        @Override
-        protected HayuBook doInBackground(HayuBook... hayuBooks) {
-            String content = ConnUtil.getHayuContent(hayuBooks[0].getId());
-            HayuBook hayuBook = hayuBooks[0];
-            hayuBook.setContent(content);
-            Log.d(TAG, "doInBackground: 得到的内容为：" + content);
-            return hayuBook;
-        }
-
-
-        @Override
-        protected void onPostExecute(HayuBook hayuBook) {
-            hybook = hayuBook;
-            new GetBookTask().execute();
-        }
-    }
 
 }
