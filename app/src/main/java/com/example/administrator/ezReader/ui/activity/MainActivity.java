@@ -30,14 +30,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.ezReader.R;
 import com.example.administrator.ezReader.ui.fragment.MainHaYuBookFragment;
-import com.example.administrator.ezReader.ui.fragment.MainMyBookFragment;
-import com.example.administrator.ezReader.ui.fragment.MainSearchFragment;
+import com.example.administrator.ezReader.ui.fragment.MainUserBookFragment;
+import com.example.administrator.ezReader.ui.fragment.MainNetBookFragment;
 
 import java.io.File;
 
@@ -106,10 +105,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = new Fragment();
         switch (type){
             case 0:
-                fragment = MainSearchFragment.newInstance();
+                fragment = MainNetBookFragment.newInstance();
                 break;
             case 1:
-                fragment = MainMyBookFragment.newInstance();
+                fragment = MainUserBookFragment.newInstance();
                 break;
             case 2:
                 fragment = MainHaYuBookFragment.newInstance();

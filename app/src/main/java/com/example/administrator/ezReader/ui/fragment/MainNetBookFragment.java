@@ -18,19 +18,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainSearchFragment extends Fragment {
+public class MainNetBookFragment extends Fragment {
 
     @BindView(R.id.main_search_vp)
     ViewPager viewPager;
     @BindView(R.id.main_search_tabLayout)
     TabLayout tabLayout;
 
-    public MainSearchFragment() {
+    public MainNetBookFragment() {
     }
 
 
-    public static MainSearchFragment newInstance() {
-        MainSearchFragment fragment = new MainSearchFragment();
+    public static MainNetBookFragment newInstance() {
+        MainNetBookFragment fragment = new MainNetBookFragment();
         return fragment;
     }
 

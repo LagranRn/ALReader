@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.administrator.ezReader.R;
 import com.example.administrator.ezReader.adapter.HayuBookRecyclerViewAdapter;
+import com.example.administrator.ezReader.bean.Constant;
 import com.example.administrator.ezReader.bean.HayuBook;
 import com.example.administrator.ezReader.ui.activity.BookReadActivity;
 import com.example.administrator.ezReader.util.ConnUtil;
@@ -96,12 +97,17 @@ public class MainHaYuBookFragment extends Fragment implements View.OnClickListen
             adapter.setListener(new HayuBookRecyclerViewAdapter.HayuBookClickListener() {
                 @Override
                 public void onItemClick(HayuBook hayuBook) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("data", hayuBook);
-                    Intent intent = new Intent(getContext(), BookReadActivity.class);
-                    intent.putExtra("bookType", "2");
-                    intent.putExtra("bundle", bundle);
-                    startActivity(intent);
+                    if (Constant.NOWUSER == 1){
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("data", hayuBook);
+                        Intent intent = new Intent(getContext(), BookReadActivity.class);
+                        intent.putExtra("bookType", "2");
+                        intent.putExtra("bundle", bundle);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getContext(), "请先登录！", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
         }

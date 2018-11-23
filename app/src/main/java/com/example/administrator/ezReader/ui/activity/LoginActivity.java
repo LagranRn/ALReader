@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.administrator.ezReader.R;
+import com.example.administrator.ezReader.bean.Constant;
 import com.example.administrator.ezReader.util.ConnUtil;
 
 import butterknife.BindView;
@@ -75,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             progressBar.setVisibility(View.GONE);
             switch (s){
                 case "1":
+                    Constant.NOWUSER = 1;
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();
