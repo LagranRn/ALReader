@@ -16,4 +16,7 @@ public class Constant {
         BOOKURLS.add("http://www.biquge.com.tw/wangyou/");
         BOOKURLS.add("http://www.biquge.com.tw/kehuan/");
     }
+
+    public static int NOWUSER = -1;
+
 }

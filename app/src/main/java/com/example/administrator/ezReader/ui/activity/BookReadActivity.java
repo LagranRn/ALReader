@@ -39,7 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.xfangfang.paperviewlibrary.PaperView;
 
-public class BookReadActivity extends AppCompatActivity {
+public class BookReadActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "BookReadActivity";
 
@@ -81,6 +81,8 @@ public class BookReadActivity extends AppCompatActivity {
     TextView category;
     @BindView(R.id.read_dl_slide)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.read_tv_add2book)
+    TextView add2book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +104,11 @@ public class BookReadActivity extends AppCompatActivity {
         menuShowAnim = AnimationUtils.loadAnimation(this, R.anim.menu_show);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
+        add2book.setOnClickListener(this);
+        category.setOnClickListener(this);
+
     }
+
     public void initData(){
         intent = getIntent();
 
@@ -130,6 +136,20 @@ public class BookReadActivity extends AppCompatActivity {
                     .getSerializable("novel");
             new GetBookTask().execute();
 
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.read_tv_add2book:
+                Toast.makeText(this, "已经加入到书架！", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.read_tv_category:
+                mDrawerLayout.openDrawer(Gravity.START);
+                rl.setVisibility(View.GONE);
+                rl.startAnimation(menuHideAnim);
+                break;
         }
     }
 
@@ -339,7 +359,7 @@ public class BookReadActivity extends AppCompatActivity {
             new GetChapterTask().execute(directories.get(current).getUrl());
 
         } else {
-            Snackbar.make(pv,"再打就装不下了~",Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(pv,"再大就装不下了~",Snackbar.LENGTH_SHORT).show();
 
         }
 
@@ -410,11 +430,7 @@ public class BookReadActivity extends AppCompatActivity {
         }
     }
 
-    public void openCategory(View view){
-        mDrawerLayout.openDrawer(Gravity.START);
-        rl.setVisibility(View.GONE);
-        rl.startAnimation(menuHideAnim);
-    }
+
 
 
     class GetHayuContent extends AsyncTask<HayuBook,Void,HayuBook>{

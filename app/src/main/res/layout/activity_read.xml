@@ -111,7 +111,6 @@
                     android:id="@+id/read_tv_category"
                     style="@style/readButton"
                     android:drawableTop="@mipmap/read_menu_category"
-                    android:onClick="openCategory"
                     android:text="@string/category" />
 
                 <TextView
@@ -121,10 +120,10 @@
                     android:text="@string/dark_mode" />
 
                 <TextView
-                    android:id="@+id/read_tv_setting"
+                    android:id="@+id/read_tv_add2book"
                     style="@style/readButton"
                     android:drawableTop="@mipmap/read_menu_font"
-                    android:text="@string/setting" />
+                    android:text="@string/add2Book" />
             </LinearLayout>
 
         </LinearLayout>

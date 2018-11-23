@@ -32,6 +32,7 @@
     <string name="category">目录</string>
     <string name="dark_mode">夜间模式</string>
     <string name="setting">设置</string>
+    <string name="add2Book">加入书架</string>
 
     <!--详情页面-->
     <string name="book_name">书名：</string>

@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity.this, "无此用户！", Toast.LENGTH_SHORT).show();
                     break;
                     default:
+                        Toast.makeText(LoginActivity.this, "连接失败！", Toast.LENGTH_SHORT).show();
             }
         }
     }

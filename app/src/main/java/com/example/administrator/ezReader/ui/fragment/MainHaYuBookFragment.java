@@ -83,7 +83,7 @@ public class MainHaYuBookFragment extends Fragment implements View.OnClickListen
         protected void onPostExecute(List<HayuBook> hayuBooks) {
             progressBar.setVisibility(View.GONE);
             if (hayuBooks == null){
-                Toast.makeText(getContext(), "请检查网络！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "连接服务器失败！", Toast.LENGTH_SHORT).show();
                 return;
             }
             search.setVisibility(View.VISIBLE);
